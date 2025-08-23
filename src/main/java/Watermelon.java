@@ -12,5 +12,16 @@ public class Watermelon {
                 + "  \\ V  V / (_| | ||  __/ |  | | | | | |  __/   (_) | | | |\n"
                 + "   \\_/\\_/ \\__,_|\\__\\___|_|  |_| |_| |_|\\___|_|\\___/|_| |_|\n";
         System.out.println("Hello from\n" + logo);
+
+        System.out.println("____________________________________________________________");
+
+        System.out.println(" Hello! I'm Watermelon\n" +
+                " What can I do for you?");
+
+        System.out.println("____________________________________________________________");
+
+        System.out.println("Bye. Hope to see you again soon!");
+
+        System.out.println("____________________________________________________________");
     }
 }
