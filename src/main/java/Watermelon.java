@@ -23,32 +23,54 @@ public class Watermelon {
 
         String input = scanner.nextLine();
         ArrayList<Task> tasklist = new ArrayList<>();
+
         while (!input.equals("bye")) {
             System.out.println(indent + "____________________________________________________________");
-            Matcher markMatcher = Pattern.compile("^mark (\\d+)$").matcher(input);
-            Matcher unmarkMatcher = Pattern.compile("^unmark (\\d+)$").matcher(input);
+
+            Matcher todo = Pattern.compile("^todo\\s+(.+)$").matcher(input);
+            Matcher deadline = Pattern.compile("^deadline\\s+([^/]+)(?:/by\\s+(.+))?$").matcher(input);
+            Matcher event = Pattern.compile("^event\\s+([^/]+)(?:/from\\s+([^/]+))?(?:/to\\s+(.+))?$").matcher(input);
+            Matcher mark = Pattern.compile("^mark (\\d+)$").matcher(input);
+            Matcher unmark = Pattern.compile("^unmark (\\d+)$").matcher(input);
+
             if (input.equals("list")) { // list
                 System.out.println(indent + "Here are the tasks in your list:");
                 for (int i = 0; i < tasklist.size(); i++) {
                     int task_index = i + 1;
                     System.out.println(indent + task_index + "." + tasklist.get(i));
                 }
-            } else if (markMatcher.matches()) { // mark
-                int taskNumber = Integer.parseInt(markMatcher.group(1));
+            } else if (mark.matches()) { // mark
+                int taskNumber = Integer.parseInt(mark.group(1));
                 System.out.println(indent + "Nice! I've marked this task as done:");
                 Task task = tasklist.get(taskNumber - 1);
                 task.markAsDone();
                 System.out.println(indent + indent + task);
-            } else if (unmarkMatcher.matches()){ // unmark
-                int taskNumber = Integer.parseInt(unmarkMatcher.group(1));
+            } else if (unmark.matches()){ // unmark
+                int taskNumber = Integer.parseInt(unmark.group(1));
                 System.out.println(indent + "OK, I've marked this task as not done yet:");
                 Task task = tasklist.get(taskNumber - 1);
                 task.markAsUndone();
                 System.out.println(indent + indent + task);
-            } else { // add tasks
-                Task task = new Task(input);
+            } else if (todo.matches()) { // add todo
+                Task task = new Todo(input);
                 tasklist.add(task);
-                System.out.println(indent + "added: " + task.getDescription());
+                System.out.println(indent + "Got it. I've added this task:");
+                System.out.println(indent + indent + task);
+                System.out.println(indent + String.format("Now you have %d tasks in the list.", tasklist.size()));
+            } else if (deadline.matches()) { // add deadline
+                Task task = new Deadline(deadline.group(1).trim(), deadline.group(2));
+                tasklist.add(task);
+                System.out.println(indent + "Got it. I've added this task:");
+                System.out.println(indent + indent + task);
+                System.out.println(indent + String.format("Now you have %d tasks in the list.", tasklist.size()));
+            } else if (event.matches()) { // add event
+                Task task = new Event(event.group(1).trim(), event.group(2).trim(), event.group(3));
+                tasklist.add(task);
+                System.out.println(indent + "Got it. I've added this task:");
+                System.out.println(indent + indent + task);
+                System.out.println(indent + String.format("Now you have %d tasks in the list.", tasklist.size()));
+            } else { // invalid command
+                System.out.println(indent + "Sorry, I couldn't understand your message. Could you please try again?");
             }
             System.out.println(indent + "____________________________________________________________");
             input = scanner.nextLine();
