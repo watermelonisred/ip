@@ -21,6 +21,7 @@ public class Watermelon {
         Matcher mark = Pattern.compile("^mark(?:\\s+(.+))?$").matcher(input);
         // Matcher unmark = Pattern.compile("^unmark (\\d+)$").matcher(input);
         Matcher unmark = Pattern.compile("^unmark(?:\\s+(.+))?$").matcher(input);
+        Matcher delete = Pattern.compile("^delete(?:\\s+(.+))?$").matcher(input);
 
         if (input.equals("list")) { // list
             handleListCommand(tasklist);
@@ -34,6 +35,8 @@ public class Watermelon {
             handleDeadlineCommand(deadline, tasklist);
         } else if (event.matches()) { // add event
             handleEventCommand(event, tasklist);
+        } else if (delete.matches()) { // delete
+            handleDeleteCommand(delete, tasklist);
         } else { // invalid command
             throw new InvalidCommandException();
         }
@@ -124,6 +127,24 @@ public class Watermelon {
         Task task = tasklist.get(taskNumber - 1);
         task.markAsUndone();
         System.out.println(INDENT + INDENT + task);
+    }
+
+    private static void handleDeleteCommand(Matcher delete, ArrayList<Task> tasklist) throws InvalidInputException {
+        if (delete.group(1) == null || delete.group(1).isEmpty()) {
+            throw new InvalidInputException("missing task number!");
+        }
+        if (!delete.group(1).trim().matches("-?\\d+")) {
+            throw new InvalidInputException("not a valid integer!");
+        }
+        int taskNumber = Integer.parseInt(delete.group(1));
+        if (taskNumber < 1 || taskNumber > tasklist.size()) {
+            throw new InvalidInputException("not a valid task number!");
+        }
+        Task task = tasklist.get(taskNumber - 1);
+        System.out.println(INDENT + "Noted. I've removed this task:");
+        System.out.println(INDENT + INDENT + task);
+        tasklist.remove(taskNumber - 1);
+        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasklist.size()));
     }
 
     public static void main(String[] args) {
