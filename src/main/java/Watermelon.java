@@ -1,3 +1,4 @@
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,7 +73,7 @@ public class Watermelon {
     }
 
     private static void handleDeadlineCommand(Matcher deadline, ArrayList<Task> tasklist)
-            throws EmptyTaskDescriptionException, EmptyDateException {
+            throws EmptyTaskDescriptionException, EmptyDateException, DateTimeParseException {
         if (deadline.group(1) == null || deadline.group(1).isEmpty()) {
             throw new EmptyTaskDescriptionException("deadline task description is empty!");
         }
@@ -87,7 +88,7 @@ public class Watermelon {
     }
 
     private static void handleEventCommand(Matcher event, ArrayList<Task> tasklist)
-            throws EmptyTaskDescriptionException, EmptyDateException {
+            throws EmptyTaskDescriptionException, EmptyDateException, DateTimeParseException {
         if (event.group(1) == null || event.group(1).isEmpty()) {
             throw new EmptyTaskDescriptionException("event task description is empty!");
         }
@@ -187,6 +188,8 @@ public class Watermelon {
                 processCommand(input, tasklist);
             } catch (WatermelonException e) {
                 System.out.println("Error: " + e.getMessage());
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date/time format. Please input date/time in ddMMyyyy HHmm format!");
             }
 
             System.out.println(INDENT + "____________________________________________________________");
