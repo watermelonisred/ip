@@ -5,9 +5,12 @@ import java.util.Scanner;
 
 public class Watermelon {
     private static final String INDENT = " ".repeat(4);
+    private static final String DATA_FILE = "./data/watermelon.txt";
+    private static Storage storage;
 
     private static void processCommand(String input, ArrayList<Task> tasklist)
-            throws InvalidInputException, EmptyTaskDescriptionException, EmptyDateException, InvalidCommandException {
+            throws InvalidInputException, EmptyTaskDescriptionException, EmptyDateException,
+            InvalidCommandException, StorageOperationException {
         // Matcher todo = Pattern.compile("^todo\\s+(.+)$").matcher(input);
         Matcher todo = Pattern.compile("^todo\\s*(.*)$").matcher(input);
         // Matcher deadline = Pattern.compile("^deadline\\s+([^/]+)(?:/by\\s+(.+))?$").matcher(input);
@@ -27,16 +30,22 @@ public class Watermelon {
             handleListCommand(tasklist);
         } else if (mark.matches()) { // mark
             handleMarkCommand(mark, tasklist);
+            storage.saveTasks(tasklist);
         } else if (unmark.matches()) { // unmark
             handleUnmarkCommand(unmark, tasklist);
+            storage.saveTasks(tasklist);
         } else if (todo.matches()) { // add todo
             handleTodoCommand(todo, input, tasklist);
+            storage.saveTasks(tasklist);
         } else if (deadline.matches()) { // add deadline
             handleDeadlineCommand(deadline, tasklist);
+            storage.saveTasks(tasklist);
         } else if (event.matches()) { // add event
             handleEventCommand(event, tasklist);
+            storage.saveTasks(tasklist);
         } else if (delete.matches()) { // delete
             handleDeleteCommand(delete, tasklist);
+            storage.saveTasks(tasklist);
         } else { // invalid command
             throw new InvalidCommandException();
         }
@@ -161,10 +170,15 @@ public class Watermelon {
                 INDENT + " What can I do for you?");
         System.out.println(INDENT + "____________________________________________________________");
 
+        storage = new Storage(DATA_FILE); // initialise storage
+        ArrayList<Task> tasklist;
+
+        // Load existing tasks from storage
+        tasklist = storage.loadTasks();
+
         Scanner scanner = new Scanner(System.in);
 
         String input = scanner.nextLine();
-        ArrayList<Task> tasklist = new ArrayList<>();
 
         while (!input.equals("bye")) {
             System.out.println(INDENT + "____________________________________________________________");
