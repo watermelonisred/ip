@@ -1,3 +1,5 @@
+package watermelon.exception;
+
 public class EmptyDateException extends WatermelonException {
     public EmptyDateException(String message) {
         super(message);

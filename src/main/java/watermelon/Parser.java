@@ -1,5 +1,21 @@
+package watermelon;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import watermelon.exception.WatermelonException;
+import watermelon.exception.InvalidCommandException;
+import watermelon.exception.EmptyTaskDescriptionException;
+import watermelon.exception.EmptyDateException;
+import watermelon.exception.InvalidInputException;
+import watermelon.command.Command;
+import watermelon.command.ListCommand;
+import watermelon.command.MarkCommand;
+import watermelon.command.UnmarkCommand;
+import watermelon.command.TodoCommand;
+import watermelon.command.DeadlineCommand;
+import watermelon.command.EventCommand;
+import watermelon.command.DeleteCommand;
 
 public class Parser {
     private TaskList tasklist;

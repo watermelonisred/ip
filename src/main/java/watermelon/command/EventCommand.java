@@ -1,3 +1,9 @@
+package watermelon.command;
+
+import watermelon.Storage;
+import watermelon.TaskList;
+import watermelon.exception.StorageOperationException;
+
 public class EventCommand extends Command {
     private String description;
     private String from;

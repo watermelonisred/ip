@@ -1,3 +1,5 @@
+package watermelon.exception;
+
 /**
  * Exception thrown when storage operations fail
  */

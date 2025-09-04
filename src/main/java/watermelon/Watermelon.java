@@ -1,4 +1,9 @@
+package watermelon;
+
 import java.time.format.DateTimeParseException;
+
+import watermelon.command.Command;
+import watermelon.exception.WatermelonException;
 
 public class Watermelon {
     private Storage storage;

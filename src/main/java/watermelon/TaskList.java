@@ -1,7 +1,13 @@
+package watermelon;
+
 import java.io.PrintWriter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
+
+import watermelon.task.Task;
+import watermelon.task.Todo;
+import watermelon.task.Deadline;
+import watermelon.task.Event;
 
 public class TaskList {
     private static final String INDENT = " ".repeat(4);
