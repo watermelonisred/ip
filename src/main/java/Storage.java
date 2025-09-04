@@ -53,19 +53,14 @@ public class Storage {
 
     /**
      * Saves tasks to the storage file
-     * @param tasks the list of tasks to save
+     * @param tasklist the list of tasks to save
      * @throws StorageOperationException if there's an error writing to file
      */
-    public void saveTasks(ArrayList<Task> tasks) throws StorageOperationException {
+    public void saveTasks(TaskList tasklist) throws StorageOperationException {
         createDirectory();
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            for (Task task : tasks) {
-                String line = taskToFileFormat(task);
-                if (!line.isEmpty()) {
-                    writer.println(line);
-                }
-            }
+            tasklist.saveToFile(writer);
         } catch (IOException e) {
             throw new StorageOperationException("Error saving tasks to file: " + e.getMessage());
         }
@@ -84,28 +79,6 @@ public class Storage {
         } catch (IOException e) {
             throw new StorageOperationException("Error creating directory: " + e.getMessage());
         }
-    }
-
-    /**
-     * Converts a Task object to file format string
-     * Format: TYPE | STATUS | DESCRIPTION [| ADDITIONAL_INFO]
-     * @param task the task to convert
-     * @return formatted string representation of the task
-     */
-    private String taskToFileFormat(Task task) {
-        if (task == null) {
-            return "";
-        }
-
-        if (task instanceof Todo) {
-            return task.toFileFormat();
-        } else if (task instanceof Deadline) {
-            return task.toFileFormat();
-        } else if (task instanceof Event) {
-            return task.toFileFormat();
-        }
-
-        return "";
     }
 
     /**

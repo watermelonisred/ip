@@ -1,5 +1,4 @@
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Scanner;
@@ -9,7 +8,7 @@ public class Watermelon {
     private static final String DATA_FILE = "./data/watermelon.txt";
     private static Storage storage;
 
-    private static void processCommand(String input, ArrayList<Task> tasklist)
+    private static void processCommand(String input, TaskList tasklist)
             throws InvalidInputException, EmptyTaskDescriptionException, EmptyDateException,
             InvalidCommandException, StorageOperationException {
         // Matcher todo = Pattern.compile("^todo\\s+(.+)$").matcher(input);
@@ -28,133 +27,28 @@ public class Watermelon {
         Matcher delete = Pattern.compile("^delete(?:\\s+(.+))?$").matcher(input);
 
         if (input.equals("list")) { // list
-            handleListCommand(tasklist);
+            tasklist.showList();
         } else if (mark.matches()) { // mark
-            handleMarkCommand(mark, tasklist);
+            tasklist.markTask(mark);
             storage.saveTasks(tasklist);
         } else if (unmark.matches()) { // unmark
-            handleUnmarkCommand(unmark, tasklist);
+            tasklist.unmarkTask(unmark);
             storage.saveTasks(tasklist);
         } else if (todo.matches()) { // add todo
-            handleTodoCommand(todo, input, tasklist);
+            tasklist.addTodo(todo);
             storage.saveTasks(tasklist);
         } else if (deadline.matches()) { // add deadline
-            handleDeadlineCommand(deadline, tasklist);
+            tasklist.addDeadline(deadline);
             storage.saveTasks(tasklist);
         } else if (event.matches()) { // add event
-            handleEventCommand(event, tasklist);
+            tasklist.addEvent(event);
             storage.saveTasks(tasklist);
         } else if (delete.matches()) { // delete
-            handleDeleteCommand(delete, tasklist);
+            tasklist.deleteTask(delete);
             storage.saveTasks(tasklist);
         } else { // invalid command
             throw new InvalidCommandException();
         }
-    }
-
-    private static void handleListCommand(ArrayList<Task> tasklist) {
-        System.out.println(INDENT + "Here are the tasks in your list:");
-        for (int i = 0; i < tasklist.size(); i++) {
-            int task_index = i + 1;
-            System.out.println(INDENT + task_index + "." + tasklist.get(i));
-        }
-    }
-
-    private static void handleTodoCommand(Matcher todo, String input, ArrayList<Task> tasklist)
-            throws EmptyTaskDescriptionException {
-        if (todo.group(1).isEmpty()) {
-            throw new EmptyTaskDescriptionException("todo task description is empty!");
-        }
-        Task task = new Todo(input);
-        tasklist.add(task);
-        System.out.println(INDENT + "Got it. I've added this task:");
-        System.out.println(INDENT + INDENT + task);
-        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasklist.size()));
-    }
-
-    private static void handleDeadlineCommand(Matcher deadline, ArrayList<Task> tasklist)
-            throws EmptyTaskDescriptionException, EmptyDateException, DateTimeParseException {
-        if (deadline.group(1) == null || deadline.group(1).isEmpty()) {
-            throw new EmptyTaskDescriptionException("deadline task description is empty!");
-        }
-        if (deadline.group(2) == null || deadline.group(2).isEmpty()) {
-            throw new EmptyDateException();
-        }
-        Task task = new Deadline(deadline.group(1).trim(), deadline.group(2));
-        tasklist.add(task);
-        System.out.println(INDENT + "Got it. I've added this task:");
-        System.out.println(INDENT + INDENT + task);
-        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasklist.size()));
-    }
-
-    private static void handleEventCommand(Matcher event, ArrayList<Task> tasklist)
-            throws EmptyTaskDescriptionException, EmptyDateException, DateTimeParseException {
-        if (event.group(1) == null || event.group(1).isEmpty()) {
-            throw new EmptyTaskDescriptionException("event task description is empty!");
-        }
-        if (event.group(2) == null || event.group(2).isEmpty()) {
-            throw new EmptyDateException("start date/time is missing!");
-        }
-        if (event.group(3) == null || event.group(3).isEmpty()) {
-            throw new EmptyDateException("end date/time is missing!");
-        }
-        Task task = new Event(event.group(1).trim(), event.group(2).trim(), event.group(3));
-        tasklist.add(task);
-        System.out.println(INDENT + "Got it. I've added this task:");
-        System.out.println(INDENT + INDENT + task);
-        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasklist.size()));
-    }
-
-    private static void handleMarkCommand(Matcher mark, ArrayList<Task> tasklist) throws InvalidInputException {
-        if (mark.group(1) == null || mark.group(1).isEmpty()) {
-            throw new InvalidInputException("missing task number!");
-        }
-        if (!mark.group(1).trim().matches("-?\\d+")) {
-            throw new InvalidInputException("not a valid integer!");
-        }
-        int taskNumber = Integer.parseInt(mark.group(1));
-        if (taskNumber < 1 || taskNumber > tasklist.size()) {
-            throw new InvalidInputException("not a valid task number!");
-        }
-        System.out.println(INDENT + "Nice! I've marked this task as done:");
-        Task task = tasklist.get(taskNumber - 1);
-        task.markAsDone();
-        System.out.println(INDENT + INDENT + task);
-    }
-
-    private static void handleUnmarkCommand(Matcher unmark, ArrayList<Task> tasklist) throws InvalidInputException {
-        if (unmark.group(1) == null || unmark.group(1).isEmpty()) {
-            throw new InvalidInputException("missing task number!");
-        }
-        if (!unmark.group(1).trim().matches("-?\\d+")) {
-            throw new InvalidInputException("not a valid integer!");
-        }
-        int taskNumber = Integer.parseInt(unmark.group(1));
-        if (taskNumber < 1 || taskNumber > tasklist.size()) {
-            throw new InvalidInputException("not a valid task number!");
-        }
-        System.out.println(INDENT + "OK, I've marked this task as not done yet:");
-        Task task = tasklist.get(taskNumber - 1);
-        task.markAsUndone();
-        System.out.println(INDENT + INDENT + task);
-    }
-
-    private static void handleDeleteCommand(Matcher delete, ArrayList<Task> tasklist) throws InvalidInputException {
-        if (delete.group(1) == null || delete.group(1).isEmpty()) {
-            throw new InvalidInputException("missing task number!");
-        }
-        if (!delete.group(1).trim().matches("-?\\d+")) {
-            throw new InvalidInputException("not a valid integer!");
-        }
-        int taskNumber = Integer.parseInt(delete.group(1));
-        if (taskNumber < 1 || taskNumber > tasklist.size()) {
-            throw new InvalidInputException("not a valid task number!");
-        }
-        Task task = tasklist.get(taskNumber - 1);
-        System.out.println(INDENT + "Noted. I've removed this task:");
-        System.out.println(INDENT + INDENT + task);
-        tasklist.remove(taskNumber - 1);
-        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasklist.size()));
     }
 
     public static void main(String[] args) {
@@ -172,10 +66,10 @@ public class Watermelon {
         System.out.println(INDENT + "____________________________________________________________");
 
         storage = new Storage(DATA_FILE); // initialise storage
-        ArrayList<Task> tasklist;
+        TaskList tasklist;
 
         // Load existing tasks from storage
-        tasklist = storage.loadTasks();
+        tasklist = new TaskList(storage.loadTasks());
 
         Scanner scanner = new Scanner(System.in);
 
