@@ -8,49 +8,6 @@ public class Watermelon {
     private static final String DATA_FILE = "./data/watermelon.txt";
     private static Storage storage;
 
-    private static void processCommand(String input, TaskList tasklist)
-            throws InvalidInputException, EmptyTaskDescriptionException, EmptyDateException,
-            InvalidCommandException, StorageOperationException {
-        // Matcher todo = Pattern.compile("^todo\\s+(.+)$").matcher(input);
-        Matcher todo = Pattern.compile("^todo\\s*(.*)$").matcher(input);
-        // Matcher deadline = Pattern.compile("^deadline\\s+([^/]+)(?:/by\\s+(.+))?$").matcher(input);
-        Matcher deadline = Pattern.compile(
-                "^deadline(?:\\s+([^/]+?))?(?:\\s*/\\s*(?:by\\s*(.+)?)?)?$").matcher(input);
-        // Matcher event = Pattern.compile("^event\\s+([^/]+)(?:/from\\s+([^/]+))?(?:/to\\s+(.+))?$").matcher(input);
-        Matcher event = Pattern.compile(
-                        "^event(?:\\s+([^/]+?))?(?:\\s*/\\s*from(?:\\s+([^/]+?))?)?(?:\\s*/\\s*to(?:\\s+(.+)?)?)?$")
-                .matcher(input);
-        // Matcher mark = Pattern.compile("^mark (\\d+)$").matcher(input);
-        Matcher mark = Pattern.compile("^mark(?:\\s+(.+))?$").matcher(input);
-        // Matcher unmark = Pattern.compile("^unmark (\\d+)$").matcher(input);
-        Matcher unmark = Pattern.compile("^unmark(?:\\s+(.+))?$").matcher(input);
-        Matcher delete = Pattern.compile("^delete(?:\\s+(.+))?$").matcher(input);
-
-        if (input.equals("list")) { // list
-            tasklist.showList();
-        } else if (mark.matches()) { // mark
-            tasklist.markTask(mark);
-            storage.saveTasks(tasklist);
-        } else if (unmark.matches()) { // unmark
-            tasklist.unmarkTask(unmark);
-            storage.saveTasks(tasklist);
-        } else if (todo.matches()) { // add todo
-            tasklist.addTodo(todo);
-            storage.saveTasks(tasklist);
-        } else if (deadline.matches()) { // add deadline
-            tasklist.addDeadline(deadline);
-            storage.saveTasks(tasklist);
-        } else if (event.matches()) { // add event
-            tasklist.addEvent(event);
-            storage.saveTasks(tasklist);
-        } else if (delete.matches()) { // delete
-            tasklist.deleteTask(delete);
-            storage.saveTasks(tasklist);
-        } else { // invalid command
-            throw new InvalidCommandException();
-        }
-    }
-
     public static void main(String[] args) {
         String logo = "__        __    _                           _            \n"
                     + "\\ \\      / /_ _| |_ ___ _ __ _ __ ___   ___| | ___  _ __  \n"
@@ -79,7 +36,9 @@ public class Watermelon {
             System.out.println(INDENT + "____________________________________________________________");
 
             try {
-                processCommand(input, tasklist);
+                Parser parser = new Parser(tasklist, storage);
+                Command command = parser.parseCommand(input);
+                command.execute();
             } catch (WatermelonException e) {
                 System.out.println("Error: " + e.getMessage());
             } catch (DateTimeParseException e) {
