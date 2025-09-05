@@ -5,12 +5,25 @@ import java.time.format.DateTimeParseException;
 import watermelon.command.Command;
 import watermelon.exception.WatermelonException;
 
+/**
+ * Entry point of the Watermelon application.
+ *
+ * <p> This class wires together the main components:
+ * {@link Storage}, {@link Ui}, {@link TaskList} and {@link Parser}. </p>
+ */
 public class Watermelon {
     private Storage storage;
     private Ui ui;
     private TaskList tasklist;
     private Parser parser;
 
+    /**
+     * Creates a new Watermelon instance with the specified file path.
+     *
+     * <p> This sets up the storage, UI, task list (by loading existing tasks), and command parser. </p>
+     *
+     * @param filePath The path to the file where tasks are stored.
+     */
     public Watermelon(String filePath) {
         storage = new Storage(filePath); // initialise storage
         ui = new Ui();
@@ -18,6 +31,13 @@ public class Watermelon {
         parser = new Parser(tasklist, storage);
     }
 
+    /**
+     * Starts the Watermelon application.
+     *
+     * <p> Displays a welcome message, enters a loop reading user input,
+     * parses and executes commands until the user types "bye".
+     * Errors are caught and displayed without terminating the program. </p>
+     */
     public void run() {
         ui.showWelcomeMessage();
 
@@ -41,6 +61,11 @@ public class Watermelon {
         ui.endChat(); // show bye message and close program
     }
 
+    /**
+     * The main entry point of the program.
+     *
+     * <p> Creates a new {@code Watermelon} instance pointing to {@code ./data/watermelon.txt} and runs it. </p>
+     */
     public static void main(String[] args) {
         new Watermelon("./data/watermelon.txt").run();
     }

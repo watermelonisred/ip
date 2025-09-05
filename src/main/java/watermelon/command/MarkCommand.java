@@ -4,16 +4,32 @@ import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.exception.StorageOperationException;
 
+/**
+ * Represents a mark command that contains information on tasklist, task number and storage.
+ * Upon execution, task corresponding to task number is marked as done in tasklist.
+ * Mark completion message is printed and changes made are saved to storage.
+ */
 public class MarkCommand extends Command {
     private int taskNumber;
     private Storage storage;
 
+    /**
+     * Constructs a MarkCommand object with given details.
+     *
+     * @param tasklist Tasklist containing task to be marked.
+     * @param taskNumber Task number of task to be marked as done.
+     * @param storage Storage where changes made are saved.
+     */
     public MarkCommand(TaskList tasklist, int taskNumber, Storage storage) {
         super.tasklist = tasklist;
         this.taskNumber = taskNumber;
         this.storage = storage;
     }
 
+    /**
+     * Marks task as done in tasklist, prints mark completion message and saves changes into storage.
+     * @throws StorageOperationException {@inheritDoc}
+     */
     @Override
     public void execute() throws StorageOperationException {
         tasklist.markTask(taskNumber);

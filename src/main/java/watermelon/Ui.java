@@ -2,14 +2,30 @@ package watermelon;
 
 import java.util.Scanner;
 
+/**
+ * Handles all user interface interactions for the Watermelon chatbot application.
+ *
+ * <p> This class manages displaying welcome/exit messages,
+ * reading user input, printing error messages and printing separator lines.
+ * It encapsulates a {@link Scanner} to read commands from standard input. </p>
+ */
 public class Ui {
+    /** Indentation string used for console output. */
     private static final String INDENT = " ".repeat(4);
+
+    /** Scanner for reading user input from standard input. */
     private Scanner scanner;
 
+    /**
+     * Creates a new {@code Ui} instance and initializes the input scanner.
+     */
     public Ui() {
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * Displays the Watermelon logo and welcome message to the console.
+     */
     public void showWelcomeMessage() {
         String logo = "__        __    _                           _            \n"
                 + "\\ \\      / /_ _| |_ ___ _ __ _ __ ___   ___| | ___  _ __  \n"
@@ -25,6 +41,9 @@ public class Ui {
         System.out.println(INDENT + "____________________________________________________________");
     }
 
+    /**
+     * Closes the scanner and displays a goodbye message.
+     */
     public void endChat() {
         scanner.close();
         System.out.println(INDENT + "____________________________________________________________");
@@ -32,15 +51,28 @@ public class Ui {
         System.out.println(INDENT + "____________________________________________________________");
     }
 
+    /**
+     * Reads the next line of input from the user.
+     *
+     * @return The line entered by the user.
+     */
     public String readCommand() { // returns input from user
         return scanner.nextLine();
     }
 
-    public void showErrorMessage(String msg) {
-        System.out.println(msg);
+    /**
+     * Displays an error message to the console.
+     *
+     * @param message The error message to display.
+     */
+    public void showErrorMessage(String message) {
+        System.out.println(message);
 
     }
 
+    /**
+     * Prints a separator line to the console.
+     */
     public void showLine() {
         System.out.println(INDENT + "____________________________________________________________");
     }

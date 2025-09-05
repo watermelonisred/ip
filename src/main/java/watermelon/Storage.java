@@ -18,23 +18,25 @@ import watermelon.task.Event;
 import watermelon.task.Todo;
 
 /**
- * Handles saving and loading of tasks to/from disk storage
+ * Handles saving and loading of tasks to/from disk storage.
  */
 public class Storage {
     private final String filePath;
 
     /**
-     * Constructor that accepts a file path
-     * @param filePath the path to the data file
+     * Constructor that accepts a file path.
+     *
+     * @param filePath The path to the data file.
      */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
     /**
-     * Loads tasks from the storage file
-     * @return ArrayList of tasks loaded from file, empty list if file doesn't exist
-     * @throws IOException if there's an error reading from file
+     * Loads tasks from the storage file.
+     *
+     * @return An {@link ArrayList} of tasks loaded from file, empty list if file doesn't exist.
+     * @throws IOException If there's an error reading from file.
      */
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -60,9 +62,10 @@ public class Storage {
     }
 
     /**
-     * Saves tasks to the storage file
-     * @param tasklist the list of tasks to save
-     * @throws StorageOperationException if there's an error writing to file
+     * Saves tasks to the storage file.
+     *
+     * @param tasklist The list of tasks to save.
+     * @throws StorageOperationException If there's an error writing to file.
      */
     public void saveTasks(TaskList tasklist) throws StorageOperationException {
         createDirectory();
@@ -75,8 +78,9 @@ public class Storage {
     }
 
     /**
-     * Creates the parent directory if it doesn't exist
-     * @throws StorageOperationException if directory creation fails
+     * Creates the parent directory if it doesn't exist.
+     *
+     * @throws StorageOperationException If directory creation fails.
      */
     private void createDirectory() throws StorageOperationException {
         try {
@@ -90,9 +94,10 @@ public class Storage {
     }
 
     /**
-     * Parses a line from the file and creates the appropriate Task object
-     * @param line the line to parse
-     * @return Task object created from the line, null if parsing fails
+     * Parses a line from the file and creates the corresponding Task object.
+     *
+     * @param line The line to parse.
+     * @return Task object created from the line, null if parsing fails.
      */
     private Task parseTaskFromFile(String line) {
         if (line == null || line.trim().isEmpty()) {
@@ -141,17 +146,14 @@ public class Storage {
     }
 
     /**
-     * Checks if the storage file exists
-     * @return true if the file exists, false otherwise
+     * Checks if the storage file exists.
+     *
+     * @return true if the file exists, false otherwise.
      */
     public boolean fileExists() {
         return new File(filePath).exists();
     }
 
-    /**
-     * Gets the file path being used for storage
-     * @return the file path
-     */
     public String getFilePath() {
         return filePath;
     }

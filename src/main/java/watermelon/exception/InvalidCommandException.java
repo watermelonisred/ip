@@ -1,10 +1,12 @@
 package watermelon.exception;
 
+/**
+ * An exception that is thrown when a command is invalid.
+ */
 public class InvalidCommandException extends WatermelonException {
-    public InvalidCommandException(String message) {
-        super(message);
-    }
-
+    /**
+     * Constructs a new InvalidCommandException with the specified detail message.
+     */
     public InvalidCommandException() {
         super("invalid command!");
     }
