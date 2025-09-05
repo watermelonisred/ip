@@ -3,19 +3,12 @@ package watermelon;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import watermelon.command.*;
 import watermelon.exception.WatermelonException;
 import watermelon.exception.InvalidCommandException;
 import watermelon.exception.EmptyTaskDescriptionException;
 import watermelon.exception.EmptyDateException;
 import watermelon.exception.InvalidInputException;
-import watermelon.command.Command;
-import watermelon.command.ListCommand;
-import watermelon.command.MarkCommand;
-import watermelon.command.UnmarkCommand;
-import watermelon.command.TodoCommand;
-import watermelon.command.DeadlineCommand;
-import watermelon.command.EventCommand;
-import watermelon.command.DeleteCommand;
 
 public class Parser {
     private TaskList tasklist;
@@ -36,6 +29,7 @@ public class Parser {
         Matcher mark = Pattern.compile("^mark(?:\\s+(.+))?$").matcher(input);
         Matcher unmark = Pattern.compile("^unmark(?:\\s+(.+))?$").matcher(input);
         Matcher delete = Pattern.compile("^delete(?:\\s+(.+))?$").matcher(input);
+        Matcher find = Pattern.compile("find( .*)?").matcher(input);
 
         if (input.equals("list")) { // list
             return new ListCommand(tasklist);
@@ -99,6 +93,11 @@ public class Parser {
                 throw new InvalidInputException("not a valid task number!");
             }
             return new DeleteCommand(tasklist, taskNumber, storage);
+        } else if (find.matches()) { // find
+            if (find.group(1) == null || find.group(1).isBlank()) {
+                throw new InvalidInputException("missing keyword!");
+            }
+            return new FindCommand(tasklist, find.group(1).trim());
         } else { // invalid command
             throw new InvalidCommandException();
         }
