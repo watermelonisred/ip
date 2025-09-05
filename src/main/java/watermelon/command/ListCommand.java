@@ -3,12 +3,12 @@ package watermelon.command;
 import watermelon.TaskList;
 
 public class ListCommand extends Command {
-    public ListCommand(TaskList tasklist) {
-        super.tasklist = tasklist;
+    public ListCommand(TaskList taskList) {
+        super.taskList = taskList;
     }
 
     @Override
     public void execute() {
-        tasklist.showList();
+        taskList.showList();
     }
 }

@@ -4,7 +4,7 @@ import watermelon.TaskList;
 import watermelon.exception.StorageOperationException;
 
 public abstract class Command {
-    TaskList tasklist;
+    TaskList taskList;
 
     abstract public void execute() throws StorageOperationException;
 }

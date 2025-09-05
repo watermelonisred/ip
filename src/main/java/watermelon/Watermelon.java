@@ -8,14 +8,14 @@ import watermelon.exception.WatermelonException;
 public class Watermelon {
     private Storage storage;
     private Ui ui;
-    private TaskList tasklist;
+    private TaskList taskList;
     private Parser parser;
 
     public Watermelon(String filePath) {
         storage = new Storage(filePath); // initialise storage
         ui = new Ui();
-        tasklist = new TaskList(storage.loadTasks()); // load existing tasks from storage
-        parser = new Parser(tasklist, storage);
+        taskList = new TaskList(storage.loadTasks()); // load existing tasks from storage
+        parser = new Parser(taskList, storage);
     }
 
     public void run() {

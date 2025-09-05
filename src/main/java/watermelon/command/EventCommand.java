@@ -10,8 +10,8 @@ public class EventCommand extends Command {
     private String to;
     private Storage storage;
 
-    public EventCommand(TaskList tasklist, String description, String from, String to, Storage storage) {
-        super.tasklist = tasklist;
+    public EventCommand(TaskList taskList, String description, String from, String to, Storage storage) {
+        super.taskList = taskList;
         this.description = description;
         this.from = from;
         this.to = to;
@@ -20,7 +20,7 @@ public class EventCommand extends Command {
 
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.addEvent(description, from, to);
-        storage.saveTasks(tasklist);
+        taskList.addEvent(description, from, to);
+        storage.saveTasks(taskList);
     }
 }

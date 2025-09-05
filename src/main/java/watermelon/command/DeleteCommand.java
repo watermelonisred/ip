@@ -8,15 +8,15 @@ public class DeleteCommand extends Command {
     private int taskNumber;
     private Storage storage;
 
-    public DeleteCommand(TaskList tasklist, int taskNumber, Storage storage) {
-        super.tasklist = tasklist;
+    public DeleteCommand(TaskList taskList, int taskNumber, Storage storage) {
+        super.taskList = taskList;
         this.taskNumber = taskNumber;
         this.storage = storage;
     }
 
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.deleteTask(taskNumber);
-        storage.saveTasks(tasklist);
+        taskList.deleteTask(taskNumber);
+        storage.saveTasks(taskList);
     }
 }

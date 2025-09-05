@@ -9,8 +9,8 @@ public class DeadlineCommand extends Command {
     private String by;
     private Storage storage;
 
-    public DeadlineCommand(TaskList tasklist, String description, String by, Storage storage) {
-        super.tasklist = tasklist;
+    public DeadlineCommand(TaskList taskList, String description, String by, Storage storage) {
+        super.taskList = taskList;
         this.description = description;
         this.by = by;
         this.storage = storage;
@@ -18,7 +18,7 @@ public class DeadlineCommand extends Command {
 
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.addDeadline(description, by);
-        storage.saveTasks(tasklist);
+        taskList.addDeadline(description, by);
+        storage.saveTasks(taskList);
     }
 }
