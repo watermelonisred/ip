@@ -17,15 +17,38 @@ import watermelon.command.DeadlineCommand;
 import watermelon.command.EventCommand;
 import watermelon.command.DeleteCommand;
 
+/**
+ * Parses raw user input strings and converts them into {@link Command} objects for execution.
+ *
+ * <p>This class uses regular expressions to recognise
+ * supported commands (list, mark, unmark, todo, deadline, event, delete).
+ * Based on the match, it constructs the corresponding {@link Command}
+ * subclass or throws a {@link WatermelonException} if the input is invalid.</p>
+ */
 public class Parser {
     private TaskList tasklist;
     private Storage storage;
 
+    /**
+     * Constructs a new {@code Parser} instance which uses the given task list and storage.
+     *
+     * @param tasklist The {@link TaskList} on which commands will operate.
+     * @param storage  The {@link Storage} used to save and load changes.
+     */
     public Parser(TaskList tasklist, Storage storage) {
         this.tasklist = tasklist;
         this.storage = storage;
     }
 
+    /**
+     * Parses a user input string and returns the corresponding {@link Command}.
+     *
+     * @param input The full line of user input to parse.
+     * @return A {@link Command} representing the user’s instruction.
+     * @throws WatermelonException If the input is invalid, missing required fields,
+     *                             refers to a non-existent task number, or does not
+     *                             match any known command.
+     */
     public Command parseCommand(String input) throws WatermelonException {
         Matcher todo = Pattern.compile("^todo\\s*(.*)$").matcher(input);
         Matcher deadline = Pattern.compile(
@@ -37,9 +60,9 @@ public class Parser {
         Matcher unmark = Pattern.compile("^unmark(?:\\s+(.+))?$").matcher(input);
         Matcher delete = Pattern.compile("^delete(?:\\s+(.+))?$").matcher(input);
 
-        if (input.equals("list")) { // list
+        if (input.equals("list")) { // returns a ListCommand
             return new ListCommand(tasklist);
-        } else if (mark.matches()) { // mark
+        } else if (mark.matches()) { // returns a MarkCommand
             if (mark.group(1) == null || mark.group(1).isEmpty()) {
                 throw new InvalidInputException("missing task number!");
             }
@@ -51,7 +74,7 @@ public class Parser {
                 throw new InvalidInputException("not a valid task number!");
             }
             return new MarkCommand(tasklist, taskNumber, storage);
-        } else if (unmark.matches()) { // unmark
+        } else if (unmark.matches()) { // returns an UnmarkCommand
             if (unmark.group(1) == null || unmark.group(1).isEmpty()) {
                 throw new InvalidInputException("missing task number!");
             }
@@ -63,12 +86,12 @@ public class Parser {
                 throw new InvalidInputException("not a valid task number!");
             }
             return new UnmarkCommand(tasklist, taskNumber, storage);
-        } else if (todo.matches()) { // add todo
+        } else if (todo.matches()) { // returns a TodoCommand
             if (todo.group(1).isEmpty()) {
                 throw new EmptyTaskDescriptionException("todo task description is empty!");
             }
             return new TodoCommand(tasklist, todo.group(1).trim(), storage);
-        } else if (deadline.matches()) { // add deadline
+        } else if (deadline.matches()) { // returns a DeadlineCommand
             if (deadline.group(1) == null || deadline.group(1).isEmpty()) {
                 throw new EmptyTaskDescriptionException("deadline task description is empty!");
             }
@@ -76,7 +99,7 @@ public class Parser {
                 throw new EmptyDateException();
             }
             return new DeadlineCommand(tasklist, deadline.group(1).trim(), deadline.group(2), storage);
-        } else if (event.matches()) { // add event
+        } else if (event.matches()) { // returns a EventCommand
             if (event.group(1) == null || event.group(1).isEmpty()) {
                 throw new EmptyTaskDescriptionException("event task description is empty!");
             }
@@ -87,7 +110,7 @@ public class Parser {
                 throw new EmptyDateException("end date/time is missing!");
             }
             return new EventCommand(tasklist, event.group(1).trim(), event.group(2).trim(), event.group(3), storage);
-        } else if (delete.matches()) { // delete
+        } else if (delete.matches()) { // returns a DeleteCommand
             if (delete.group(1) == null || delete.group(1).isEmpty()) {
                 throw new InvalidInputException("missing task number!");
             }
