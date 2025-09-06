@@ -16,6 +16,7 @@ import watermelon.command.TodoCommand;
 import watermelon.command.DeadlineCommand;
 import watermelon.command.EventCommand;
 import watermelon.command.DeleteCommand;
+import watermelon.command.FindCommand;
 
 /**
  * Parses raw user input strings and converts them into {@link Command} objects for execution.
@@ -59,6 +60,7 @@ public class Parser {
         Matcher mark = Pattern.compile("^mark(?:\\s+(.+))?$").matcher(input);
         Matcher unmark = Pattern.compile("^unmark(?:\\s+(.+))?$").matcher(input);
         Matcher delete = Pattern.compile("^delete(?:\\s+(.+))?$").matcher(input);
+        Matcher find = Pattern.compile("find( .*)?").matcher(input);
 
         if (input.equals("list")) { // returns a ListCommand
             return new ListCommand(taskList);
@@ -122,6 +124,11 @@ public class Parser {
                 throw new InvalidInputException("not a valid task number!");
             }
             return new DeleteCommand(taskList, taskNumber, storage);
+        } else if (find.matches()) { // returns a FindCommand
+            if (find.group(1) == null || find.group(1).isBlank()) {
+                throw new InvalidInputException("missing keyword!");
+            }
+            return new FindCommand(taskList, find.group(1).trim());
         } else { // invalid command
             throw new InvalidCommandException();
         }

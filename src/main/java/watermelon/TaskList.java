@@ -142,4 +142,26 @@ public class TaskList {
         tasks.remove(taskNumber - 1);
         System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasks.size()));
     }
+
+    public void findTask(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+
+        for (Task task : tasklist) {
+            if (task.getDescription().toLowerCase().contains(keyword)) {
+                matchingTasks.add(task);
+            }
+        }
+
+        if (matchingTasks.isEmpty()) {
+            System.out.println(INDENT + "Oops! Cannot find any matching tasks.");
+            return;
+        }
+
+        System.out.println(INDENT + "Here are the matching tasks in your list:");
+
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            int task_index = i + 1;
+            System.out.println(INDENT + task_index + "." + matchingTasks.get(i));
+        }
+    }
 }
