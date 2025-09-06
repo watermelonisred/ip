@@ -7,12 +7,12 @@ public class FindCommand extends Command {
     private String keyword;
 
     public FindCommand(TaskList taskList, String keyword) {
-        super.tasklist = taskList;
+        super.taskList = taskList;
         this.keyword = keyword;
     }
 
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.findTask(keyword);
+        taskList.findTask(keyword);
     }
 }

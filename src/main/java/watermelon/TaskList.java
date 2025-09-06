@@ -143,10 +143,15 @@ public class TaskList {
         System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasks.size()));
     }
 
+    /**
+     * Finds tasks with description matching given keyword from the TaskList and prints to standard output.
+     *
+     * @param keyword The keyword of the task to be searched.
+     */
     public void findTask(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
 
-        for (Task task : tasklist) {
+        for (Task task : tasks) {
             if (task.getDescription().toLowerCase().contains(keyword)) {
                 matchingTasks.add(task);
             }
