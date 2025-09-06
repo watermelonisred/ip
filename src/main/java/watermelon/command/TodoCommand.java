@@ -15,12 +15,12 @@ public class TodoCommand extends Command {
     /**
      * Constructs a TodoCommand object with given details.
      *
-     * @param tasklist Tasklist to add todo task to.
+     * @param taskList Tasklist to add todo task to.
      * @param description Description of todo task.
      * @param storage Storage where todo task is stored.
      */
-    public TodoCommand(TaskList tasklist, String description, Storage storage) {
-        super.tasklist = tasklist;
+    public TodoCommand(TaskList taskList, String description, Storage storage) {
+        super.taskList = taskList;
         this.description = description;
         this.storage = storage;
     }
@@ -31,7 +31,7 @@ public class TodoCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.addTodo(description);
-        storage.saveTasks(tasklist);
+        taskList.addTodo(description);
+        storage.saveTasks(taskList);
     }
 }

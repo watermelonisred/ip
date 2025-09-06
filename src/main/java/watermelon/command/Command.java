@@ -8,7 +8,7 @@ import watermelon.exception.StorageOperationException;
  * All subclasses of Command  must implement a {@link #execute()} method.
  */
 public abstract class Command {
-    TaskList tasklist;
+    TaskList taskList;
 
     /**
      * Executes the command by modifying the TaskList accordingly and saving the task where needed.

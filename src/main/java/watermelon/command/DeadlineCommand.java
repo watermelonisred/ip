@@ -16,13 +16,13 @@ public class DeadlineCommand extends Command {
     /**
      * Constructs a DeadlineCommand object with given details.
      *
-     * @param tasklist Tasklist to add deadline task to.
+     * @param taskList Tasklist to add deadline task to.
      * @param description Description of deadline task.
      * @param by Deadline of deadline task.
      * @param storage Storage where deadline task is stored.
      */
-    public DeadlineCommand(TaskList tasklist, String description, String by, Storage storage) {
-        super.tasklist = tasklist;
+    public DeadlineCommand(TaskList taskList, String description, String by, Storage storage) {
+        super.taskList = taskList;
         this.description = description;
         this.by = by;
         this.storage = storage;
@@ -34,7 +34,7 @@ public class DeadlineCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.addDeadline(description, by);
-        storage.saveTasks(tasklist);
+        taskList.addDeadline(description, by);
+        storage.saveTasks(taskList);
     }
 }

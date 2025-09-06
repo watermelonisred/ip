@@ -17,14 +17,14 @@ public class EventCommand extends Command {
     /**
      * Constructs a EventCommand object with given details.
      *
-     * @param tasklist Tasklist to add deadline task to.
+     * @param taskList Tasklist to add deadline task to.
      * @param description Description of event task.
      * @param from Start date & time of event task.
      * @param to End date & time of event task.
      * @param storage Storage where event task is stored.
      */
-    public EventCommand(TaskList tasklist, String description, String from, String to, Storage storage) {
-        super.tasklist = tasklist;
+    public EventCommand(TaskList taskList, String description, String from, String to, Storage storage) {
+        super.taskList = taskList;
         this.description = description;
         this.from = from;
         this.to = to;
@@ -37,7 +37,7 @@ public class EventCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.addEvent(description, from, to);
-        storage.saveTasks(tasklist);
+        taskList.addEvent(description, from, to);
+        storage.saveTasks(taskList);
     }
 }

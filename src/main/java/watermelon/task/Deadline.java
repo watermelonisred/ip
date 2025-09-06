@@ -35,8 +35,8 @@ public class Deadline extends Task {
      */
     private LocalDateTime stringToDateTime(String input) throws DateTimeParseException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
-        LocalDateTime dt = LocalDateTime.parse(input, formatter);
-        return dt;
+        LocalDateTime dateTime = LocalDateTime.parse(input, formatter);
+        return dateTime;
     }
 
     /**

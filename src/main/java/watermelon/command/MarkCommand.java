@@ -16,12 +16,12 @@ public class MarkCommand extends Command {
     /**
      * Constructs a MarkCommand object with given details.
      *
-     * @param tasklist Tasklist containing task to be marked.
+     * @param taskList Tasklist containing task to be marked.
      * @param taskNumber Task number of task to be marked as done.
      * @param storage Storage where changes made are saved.
      */
-    public MarkCommand(TaskList tasklist, int taskNumber, Storage storage) {
-        super.tasklist = tasklist;
+    public MarkCommand(TaskList taskList, int taskNumber, Storage storage) {
+        super.taskList = taskList;
         this.taskNumber = taskNumber;
         this.storage = storage;
     }
@@ -32,7 +32,7 @@ public class MarkCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.markTask(taskNumber);
-        storage.saveTasks(tasklist);
+        taskList.markTask(taskNumber);
+        storage.saveTasks(taskList);
     }
 }

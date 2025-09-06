@@ -16,12 +16,12 @@ public class DeleteCommand extends Command {
     /**
      * Constructs a DeleteCommand object with given details.
      *
-     * @param tasklist Tasklist to delete task from.
+     * @param taskList Tasklist to delete task from.
      * @param taskNumber Task number of task to be deleted.
      * @param storage Storage where changes made are saved.
      */
-    public DeleteCommand(TaskList tasklist, int taskNumber, Storage storage) {
-        super.tasklist = tasklist;
+    public DeleteCommand(TaskList taskList, int taskNumber, Storage storage) {
+        super.taskList = taskList;
         this.taskNumber = taskNumber;
         this.storage = storage;
     }
@@ -32,7 +32,7 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.deleteTask(taskNumber);
-        storage.saveTasks(tasklist);
+        taskList.deleteTask(taskNumber);
+        storage.saveTasks(taskList);
     }
 }

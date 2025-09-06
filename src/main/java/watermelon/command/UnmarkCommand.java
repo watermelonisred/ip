@@ -16,12 +16,12 @@ public class UnmarkCommand extends Command {
     /**
      * Constructs a UnmarkCommand object with given details.
      *
-     * @param tasklist Tasklist containing task to be unmarked.
+     * @param taskList Tasklist containing task to be unmarked.
      * @param taskNumber Task number of task to be marked as undone.
      * @param storage Storage where changes made are saved.
      */
-    public UnmarkCommand(TaskList tasklist, int taskNumber, Storage storage) {
-        super.tasklist = tasklist;
+    public UnmarkCommand(TaskList taskList, int taskNumber, Storage storage) {
+        super.taskList = taskList;
         this.taskNumber = taskNumber;
         this.storage = storage;
     }
@@ -32,7 +32,7 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        tasklist.unmarkTask(taskNumber);
-        storage.saveTasks(tasklist);
+        taskList.unmarkTask(taskNumber);
+        storage.saveTasks(taskList);
     }
 }

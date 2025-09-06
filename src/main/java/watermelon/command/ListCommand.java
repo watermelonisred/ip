@@ -1,7 +1,6 @@
 package watermelon.command;
 
 import watermelon.TaskList;
-import watermelon.exception.StorageOperationException;
 
 /**
  * Represents a list command that contains a tasklist.
@@ -11,10 +10,10 @@ public class ListCommand extends Command {
     /**
      * Constructs a ListCommand object with given details.
      *
-     * @param tasklist Tasklist to be listed.
+     * @param taskList Tasklist to be listed.
      */
-    public ListCommand(TaskList tasklist) {
-        super.tasklist = tasklist;
+    public ListCommand(TaskList taskList) {
+        super.taskList = taskList;
     }
 
     /**
@@ -22,6 +21,6 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute() {
-        tasklist.showList();
+        taskList.showList();
     }
 }
