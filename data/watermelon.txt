@@ -1,4 +1,5 @@
-E | 0 | dinner | 09092025 1800 | 09092025 2100
-D | 0 | assignment | 08092025 2359
+D | 1 | assignment | 08092025 2359
 T | 0 | watch lectures
 T | 0 | shower
+T | 0 | catch up on work
+D | 0 | ip | 22092025 2359

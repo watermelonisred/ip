@@ -24,31 +24,34 @@ public class Ui {
     }
 
     /**
-     * Displays the Watermelon logo and welcome message to the console.
+     * Returns the Watermelon logo and welcome message.
      */
-    public void showWelcomeMessage() {
-        String logo = "__        __    _                           _            \n"
+    public String showWelcomeMessage() {
+        /* String logo = "__        __    _                           _            \n"
                 + "\\ \\      / /_ _| |_ ___ _ __ _ __ ___   ___| | ___  _ __  \n"
                 + " \\ \\ /\\ / / _` | __/ _ \\ '__| '_ ` _ \\ / _ \\ |/ _ \\| '_ \\ \n"
                 + "  \\ V  V / (_| | ||  __/ |  | | | | | |  __/ | (_) | | | |\n"
                 + "   \\_/\\_/ \\__,_|\\__\\___|_|  |_| |_| |_|\\___|_|\\___/|_| |_|\n";
 
         System.out.println("Hello from\n" + logo);
-
         System.out.println(INDENT + "____________________________________________________________");
         System.out.println(INDENT + " Hello! I'm Watermelon\n" +
                 INDENT + " What can I do for you?");
         System.out.println(INDENT + "____________________________________________________________");
+        */
+        return "Hello! I'm Watermelon\n" + "What can I do for you?";
     }
 
     /**
      * Closes the scanner and displays a goodbye message.
      */
-    public void endChat() {
-        scanner.close();
+    public String endChat() {
+        /* scanner.close();
         System.out.println(INDENT + "____________________________________________________________");
         System.out.println(INDENT + "Bye. Hope to see you again soon!");
         System.out.println(INDENT + "____________________________________________________________");
+        */
+        return "Bye. Hope to see you again soon! :)";
     }
 
     /**
@@ -71,9 +74,9 @@ public class Ui {
     }
 
     /**
-     * Prints a separator line to the console.
+     * Returns a separator line.
      */
-    public void showLine() {
-        System.out.println(INDENT + "____________________________________________________________");
+    public String showLine() {
+        return INDENT + "____________________________________________________________";
     }
 }

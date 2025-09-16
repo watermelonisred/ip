@@ -3,6 +3,7 @@ package watermelon.command;
 import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.exception.StorageOperationException;
+import watermelon.task.Task;
 
 /**
  * Represents an event command that contains information on event task (task description, start & end date and storage).
@@ -37,7 +38,15 @@ public class EventCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        taskList.addEvent(description, from, to);
+        Task task = taskList.addEvent(description, from, to);
         storage.saveTasks(taskList);
+        message = "Got it. I've added this task:\n"
+                + INDENT + task + "\n"
+                + String.format("Now you have %d tasks in the list.", taskList.getSize());
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

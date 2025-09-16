@@ -8,11 +8,18 @@ import watermelon.exception.StorageOperationException;
  * All subclasses of Command  must implement a {@link #execute()} method.
  */
 public abstract class Command {
+    protected static final String INDENT = " ".repeat(4);
     TaskList taskList;
+    String message;
 
     /**
      * Executes the command by modifying the TaskList accordingly and saving the task where needed.
      * @throws StorageOperationException when a problem occurs during saving of task to data file.
      */
-    abstract public void execute() throws StorageOperationException;
+    public abstract void execute() throws StorageOperationException;
+
+    /**
+     * Returns the message from Watermelon responding to user's command.
+     */
+    public abstract String getMessage();
 }

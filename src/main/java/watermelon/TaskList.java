@@ -29,8 +29,15 @@ public class TaskList {
     /**
      * Returns the number of tasks stored in the {@code TaskList}.
      */
-    public int size() {
+    public int getSize() {
         return tasks.size();
+    }
+
+    /**
+     * Returns the task at the specified index.
+     */
+    public Task getTask(int index) {
+        return tasks.get(index);
     }
 
     /**
@@ -65,11 +72,10 @@ public class TaskList {
      *
      * @param taskNumber The task number of the task to be marked.
      */
-    public void markTask(int taskNumber) {
-        System.out.println(INDENT + "Nice! I've marked this task as done:");
+    public Task markTask(int taskNumber) {
         Task task = tasks.get(taskNumber - 1);
         task.markAsDone();
-        System.out.println(INDENT + INDENT + task);
+        return task;
     }
 
     /**
@@ -77,11 +83,10 @@ public class TaskList {
      *
      * @param taskNumber The task number of the task to be unmarked.
      */
-    public void unmarkTask(int taskNumber) {
-        System.out.println(INDENT + "OK, I've marked this task as not done yet:");
+    public Task unmarkTask(int taskNumber) {
         Task task = tasks.get(taskNumber - 1);
         task.markAsUndone();
-        System.out.println(INDENT + INDENT + task);
+        return task;
     }
 
     /**
@@ -89,12 +94,10 @@ public class TaskList {
      *
      * @param description The task description.
      */
-    public void addTodo(String description) {
+    public Task addTodo(String description) {
         Task task = new Todo(description);
         tasks.add(task);
-        System.out.println(INDENT + "Got it. I've added this task:");
-        System.out.println(INDENT + INDENT + task);
-        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasks.size()));
+        return task;
     }
 
     /**
@@ -104,13 +107,11 @@ public class TaskList {
      * @param by The due date/time in expected format ("ddMMyyyy HHmm").
      * @throws DateTimeParseException If the date/time string does not match the "ddMMyyyy HHmm" pattern.
      */
-    public void addDeadline(String description, String by)
+    public Task addDeadline(String description, String by)
             throws DateTimeParseException {
         Task task = new Deadline(description, by);
         tasks.add(task);
-        System.out.println(INDENT + "Got it. I've added this task:");
-        System.out.println(INDENT + INDENT + task);
-        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasks.size()));
+        return task;
     }
 
     /**
@@ -121,13 +122,11 @@ public class TaskList {
      * @param to The end date/time in expected format ("ddMMyyyy HHmm").
      * @throws DateTimeParseException If either date/time string does not match the "ddMMyyyy HHmm" pattern.
      */
-    public void addEvent(String description, String from, String to)
+    public Task addEvent(String description, String from, String to)
             throws DateTimeParseException {
         Task task = new Event(description, from, to);
         tasks.add(task);
-        System.out.println(INDENT + "Got it. I've added this task:");
-        System.out.println(INDENT + INDENT + task);
-        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasks.size()));
+        return task;
     }
 
     /**
@@ -135,12 +134,10 @@ public class TaskList {
      *
      * @param taskNumber The task number of the task to be deleted.
      */
-    public void deleteTask(int taskNumber) {
+    public Task deleteTask(int taskNumber) {
         Task task = tasks.get(taskNumber - 1);
-        System.out.println(INDENT + "Noted. I've removed this task:");
-        System.out.println(INDENT + INDENT + task);
         tasks.remove(taskNumber - 1);
-        System.out.println(INDENT + String.format("Now you have %d tasks in the list.", tasks.size()));
+        return task;
     }
 
     /**
@@ -148,7 +145,7 @@ public class TaskList {
      *
      * @param keyword The keyword of the task to be searched.
      */
-    public void findTask(String keyword) {
+    public ArrayList<Task> findTask(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
 
         for (Task task : tasks) {
@@ -157,16 +154,6 @@ public class TaskList {
             }
         }
 
-        if (matchingTasks.isEmpty()) {
-            System.out.println(INDENT + "Oops! Cannot find any matching tasks.");
-            return;
-        }
-
-        System.out.println(INDENT + "Here are the matching tasks in your list:");
-
-        for (int i = 0; i < matchingTasks.size(); i++) {
-            int task_index = i + 1;
-            System.out.println(INDENT + task_index + "." + matchingTasks.get(i));
-        }
+        return matchingTasks;
     }
 }
