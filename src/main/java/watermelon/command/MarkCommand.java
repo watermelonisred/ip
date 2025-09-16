@@ -3,6 +3,7 @@ package watermelon.command;
 import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.exception.StorageOperationException;
+import watermelon.task.Task;
 
 /**
  * Represents a mark command that contains information on tasklist, task number and storage.
@@ -32,7 +33,13 @@ public class MarkCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        taskList.markTask(taskNumber);
+        Task task = taskList.markTask(taskNumber);
         storage.saveTasks(taskList);
+        message = "Nice! I've marked this task as done:\n" + INDENT + task;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

@@ -72,7 +72,7 @@ public class Parser {
                 throw new InvalidInputException("not a valid integer!");
             }
             int taskNumber = Integer.parseInt(mark.group(1));
-            if (taskNumber < 1 || taskNumber > taskList.size()) {
+            if (taskNumber < 1 || taskNumber > taskList.getSize()) {
                 throw new InvalidInputException("not a valid task number!");
             }
             return new MarkCommand(taskList, taskNumber, storage);
@@ -84,7 +84,7 @@ public class Parser {
                 throw new InvalidInputException("not a valid integer!");
             }
             int taskNumber = Integer.parseInt(unmark.group(1));
-            if (taskNumber < 1 || taskNumber > taskList.size()) {
+            if (taskNumber < 1 || taskNumber > taskList.getSize()) {
                 throw new InvalidInputException("not a valid task number!");
             }
             return new UnmarkCommand(taskList, taskNumber, storage);
@@ -120,7 +120,7 @@ public class Parser {
                 throw new InvalidInputException("not a valid integer!");
             }
             int taskNumber = Integer.parseInt(delete.group(1));
-            if (taskNumber < 1 || taskNumber > taskList.size()) {
+            if (taskNumber < 1 || taskNumber > taskList.getSize()) {
                 throw new InvalidInputException("not a valid task number!");
             }
             return new DeleteCommand(taskList, taskNumber, storage);

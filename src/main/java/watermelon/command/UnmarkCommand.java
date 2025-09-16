@@ -3,6 +3,7 @@ package watermelon.command;
 import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.exception.StorageOperationException;
+import watermelon.task.Task;
 
 /**
  * Represents an unmark command that contains information on tasklist, task number and storage.
@@ -32,7 +33,13 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        taskList.unmarkTask(taskNumber);
+        Task task = taskList.unmarkTask(taskNumber);
         storage.saveTasks(taskList);
+        message = "OK, I've marked this task as not done yet:\n" + INDENT + task;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

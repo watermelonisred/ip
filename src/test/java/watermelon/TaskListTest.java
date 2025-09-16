@@ -20,7 +20,7 @@ public class TaskListTest {
         ArrayList<Task> tasks = new ArrayList<>();
         TaskList taskList = new TaskList(tasks);
 
-        assertEquals(0, taskList.size());
+        assertEquals(0, taskList.getSize());
     }
 
     @Test
@@ -29,7 +29,7 @@ public class TaskListTest {
         TaskList taskList = new TaskList(tasks);
         taskList.addTodo("buy milk");
 
-        assertEquals(1, taskList.size());
+        assertEquals(1, taskList.getSize());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class TaskListTest {
 
         taskList.addTodo("buy groceries");
 
-        assertEquals(1, taskList.size());
+        assertEquals(1, taskList.getSize());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class TaskListTest {
 
         taskList.addDeadline("submit assignment", "2023-12-01");
 
-        assertEquals(1, taskList.size());
+        assertEquals(1, taskList.getSize());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class TaskListTest {
 
         taskList.addEvent("team meeting", "2025-12-01 14:00", "2025-12-01 16:00");
 
-        assertEquals(1, taskList.size());
+        assertEquals(1, taskList.getSize());
     }
 
     @Test
@@ -147,6 +147,6 @@ public class TaskListTest {
 
         taskList.deleteTask(1);
 
-        assertEquals(1, taskList.size());
+        assertEquals(1, taskList.getSize());
     }
 }

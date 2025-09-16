@@ -3,6 +3,7 @@ package watermelon.command;
 import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.exception.StorageOperationException;
+import watermelon.task.Task;
 
 /**
  * Represents a todo command that contains information on a todo task (task description and storage).
@@ -31,7 +32,15 @@ public class TodoCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        taskList.addTodo(description);
+        Task task = taskList.addTodo(description);
         storage.saveTasks(taskList);
+        message = "Got it. I've added this task:\n"
+                + INDENT + task + "\n"
+                + String.format("Now you have %d tasks in the list.", taskList.getSize());
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

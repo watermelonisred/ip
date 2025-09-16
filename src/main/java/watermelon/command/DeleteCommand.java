@@ -3,6 +3,7 @@ package watermelon.command;
 import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.exception.StorageOperationException;
+import watermelon.task.Task;
 
 /**
  * Represents a delete command that contains information on task number and storage.
@@ -32,7 +33,15 @@ public class DeleteCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        taskList.deleteTask(taskNumber);
+        Task task = taskList.deleteTask(taskNumber);
         storage.saveTasks(taskList);
+        message = "Noted. I've removed this task:\n"
+                + INDENT + task + "\n"
+                + String.format("Now you have %d tasks in the list.", taskList.getSize());
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

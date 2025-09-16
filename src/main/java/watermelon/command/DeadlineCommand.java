@@ -3,6 +3,7 @@ package watermelon.command;
 import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.exception.StorageOperationException;
+import watermelon.task.Task;
 
 /**
  * Represents a deadline command that contains information on a deadline task (task description, deadline and storage).
@@ -34,7 +35,15 @@ public class DeadlineCommand extends Command {
      */
     @Override
     public void execute() throws StorageOperationException {
-        taskList.addDeadline(description, by);
+        Task task = taskList.addDeadline(description, by);
         storage.saveTasks(taskList);
+        message = "Got it. I've added this task:\n"
+                + INDENT + task + "\n"
+                + String.format("Now you have %d tasks in the list.", taskList.getSize());
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

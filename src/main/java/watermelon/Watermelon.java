@@ -8,7 +8,7 @@ import watermelon.exception.WatermelonException;
 /**
  * Entry point of the Watermelon application.
  *
- * <p> This class wires together the main components:
+ * <p> This class wires together the main.css components:
  * {@link Storage}, {@link Ui}, {@link TaskList} and {@link Parser}. </p>
  */
 public class Watermelon {
@@ -26,6 +26,16 @@ public class Watermelon {
      */
     public Watermelon(String filePath) {
         storage = new Storage(filePath); // initialise storage
+        ui = new Ui();
+        taskList = new TaskList(storage.loadTasks()); // load existing tasks from storage
+        parser = new Parser(taskList, storage);
+    }
+
+    /**
+     * Creates a new Watermelon instance with the default file path.
+     */
+    public Watermelon() {
+        storage = new Storage("./data/watermelon.txt"); // initialise storage
         ui = new Ui();
         taskList = new TaskList(storage.loadTasks()); // load existing tasks from storage
         parser = new Parser(taskList, storage);
@@ -62,11 +72,25 @@ public class Watermelon {
     }
 
     /**
-     * The main entry point of the program.
-     *
-     * <p> Creates a new {@code Watermelon} instance pointing to {@code ./data/watermelon.txt} and runs it. </p>
+     * Generates a response for the user's chat message.
      */
-    public static void main(String[] args) {
-        new Watermelon("./data/watermelon.txt").run();
+    public String getResponse(String input) {
+        if (input.equals("bye")) {
+            return ui.endChat();
+        }
+
+        try {
+            Command command = parser.parseCommand(input);
+            command.execute();
+            return command.getMessage();
+        } catch (WatermelonException e) {
+            return "Error: " + e.getMessage();
+        } catch (DateTimeParseException e) {
+            return "Invalid date/time format. Please input date/time in ddMMyyyy HHmm format!";
+        }
+    }
+
+    public String getWelcomeMessage() {
+        return ui.showWelcomeMessage();
     }
 }
