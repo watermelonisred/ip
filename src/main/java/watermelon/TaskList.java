@@ -75,6 +75,7 @@ public class TaskList {
     public Task markTask(int taskNumber) {
         Task task = tasks.get(taskNumber - 1);
         task.markAsDone();
+        assert task.getStatusIcon().equals("X") : "task should be marked as done";
         return task;
     }
 
@@ -86,6 +87,7 @@ public class TaskList {
     public Task unmarkTask(int taskNumber) {
         Task task = tasks.get(taskNumber - 1);
         task.markAsUndone();
+        assert task.getStatusIcon().equals(" ") : "task should be marked as undone";
         return task;
     }
 
@@ -97,6 +99,7 @@ public class TaskList {
     public Task addTodo(String description) {
         Task task = new Todo(description);
         tasks.add(task);
+        assert tasks.contains(task) : "tasks array should contain new Todo task";
         return task;
     }
 
@@ -111,6 +114,7 @@ public class TaskList {
             throws DateTimeParseException {
         Task task = new Deadline(description, by);
         tasks.add(task);
+        assert tasks.contains(task) : "tasks array should contain new Deadline task";
         return task;
     }
 
@@ -126,6 +130,7 @@ public class TaskList {
             throws DateTimeParseException {
         Task task = new Event(description, from, to);
         tasks.add(task);
+        assert tasks.contains(task) : "tasks array should contain new Event task";
         return task;
     }
 
@@ -137,6 +142,7 @@ public class TaskList {
     public Task deleteTask(int taskNumber) {
         Task task = tasks.get(taskNumber - 1);
         tasks.remove(taskNumber - 1);
+        assert !tasks.contains(task) : "tasks array should not contain deleted task";
         return task;
     }
 

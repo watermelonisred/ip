@@ -39,6 +39,7 @@ public class EventCommand extends Command {
     @Override
     public void execute() throws StorageOperationException {
         Task task = taskList.addEvent(description, from, to);
+        assert task != null : "task should not be null";
         storage.saveTasks(taskList);
         message = "Got it. I've added this task:\n"
                 + INDENT + task + "\n"

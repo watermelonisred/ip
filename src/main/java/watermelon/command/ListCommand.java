@@ -21,7 +21,7 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute() {
-        // taskList.showList();
+        assert taskList != null : "taskList should not be null";
 
         StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
 
