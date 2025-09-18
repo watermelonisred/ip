@@ -7,7 +7,7 @@ package watermelon.task;
  * This class provides common functionalities that all task types share,
  * such as marking tasks as done or undone, and displaying task status.</p>
  */
- public class Task {
+public class Task {
     /** The description of the task */
     protected String description;
     /** The completion status of the task */
@@ -70,7 +70,7 @@ package watermelon.task;
 
     @Override
     public String toString() {
-       return "[" + this.getStatusIcon() + "] " + this.description;
+        return "[" + this.getStatusIcon() + "] " + this.description;
     }
 }
 

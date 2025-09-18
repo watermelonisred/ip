@@ -2,6 +2,7 @@ package watermelon.command;
 
 import watermelon.Storage;
 import watermelon.TaskList;
+import watermelon.Ui;
 import watermelon.exception.StorageOperationException;
 import watermelon.task.Task;
 
@@ -22,8 +23,9 @@ public class DeadlineCommand extends Command {
      * @param by Deadline of deadline task.
      * @param storage Storage where deadline task is stored.
      */
-    public DeadlineCommand(TaskList taskList, String description, String by, Storage storage) {
+    public DeadlineCommand(TaskList taskList, String description, String by, Storage storage, Ui ui) {
         super.taskList = taskList;
+        super.ui = ui;
         this.description = description;
         this.by = by;
         this.storage = storage;
@@ -37,9 +39,7 @@ public class DeadlineCommand extends Command {
     public void execute() throws StorageOperationException {
         Task task = taskList.addDeadline(description, by);
         storage.saveTasks(taskList);
-        message = "Got it. I've added this task:\n"
-                + INDENT + task + "\n"
-                + String.format("Now you have %d tasks in the list.", taskList.getSize());
+        message = ui.showTaskAddedMessage(task, taskList.getSize());
     }
 
     @Override

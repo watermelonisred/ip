@@ -2,6 +2,7 @@ package watermelon.command;
 
 import watermelon.Storage;
 import watermelon.TaskList;
+import watermelon.Ui;
 import watermelon.exception.StorageOperationException;
 import watermelon.task.Task;
 
@@ -21,8 +22,9 @@ public class MarkCommand extends Command {
      * @param taskNumber Task number of task to be marked as done.
      * @param storage Storage where changes made are saved.
      */
-    public MarkCommand(TaskList taskList, int taskNumber, Storage storage) {
+    public MarkCommand(TaskList taskList, int taskNumber, Storage storage, Ui ui) {
         super.taskList = taskList;
+        super.ui = ui;
         this.taskNumber = taskNumber;
         this.storage = storage;
     }
@@ -35,7 +37,7 @@ public class MarkCommand extends Command {
     public void execute() throws StorageOperationException {
         Task task = taskList.markTask(taskNumber);
         storage.saveTasks(taskList);
-        message = "Nice! I've marked this task as done:\n" + INDENT + task;
+        message = ui.showTaskMarkedMessage(task);
     }
 
     @Override

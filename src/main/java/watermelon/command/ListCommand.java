@@ -1,6 +1,7 @@
 package watermelon.command;
 
 import watermelon.TaskList;
+import watermelon.Ui;
 
 /**
  * Represents a list command that contains a tasklist.
@@ -12,8 +13,9 @@ public class ListCommand extends Command {
      *
      * @param taskList Tasklist to be listed.
      */
-    public ListCommand(TaskList taskList) {
+    public ListCommand(TaskList taskList, Ui ui) {
         super.taskList = taskList;
+        super.ui = ui;
     }
 
     /**
@@ -21,16 +23,7 @@ public class ListCommand extends Command {
      */
     @Override
     public void execute() {
-        // taskList.showList();
-
-        StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
-
-        for (int i = 0; i < taskList.getSize(); i++) {
-            int task_index = i + 1;
-            sb.append("\n" + INDENT + task_index + "." + taskList.getTask(i));
-        }
-
-        message = sb.toString();
+        message = ui.showTasksListedMessage(taskList);
     }
 
     @Override

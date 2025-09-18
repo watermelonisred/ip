@@ -4,19 +4,16 @@ import java.io.PrintWriter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-import watermelon.task.Task;
-import watermelon.task.Todo;
 import watermelon.task.Deadline;
 import watermelon.task.Event;
+import watermelon.task.Task;
+import watermelon.task.Todo;
 
 /**
  * Represents a list of tasks that can be managed and edited.
  * Provides methods to add, mark/unmark, delete, display and save tasks.
  */
 public class TaskList {
-    /** Indentation string used for console output. */
-    private static final String INDENT = " ".repeat(4);
-
     private ArrayList<Task> tasks;
 
     /**
@@ -53,17 +50,6 @@ public class TaskList {
             if (!line.isEmpty()) {
                 writer.println(line);
             }
-        }
-    }
-
-    /**
-     * Prints all tasks in the TaskList to standard output, prefixed with their task number.
-     */
-    public void showList() {
-        System.out.println(INDENT + "Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            int task_index = i + 1;
-            System.out.println(INDENT + task_index + "." + tasks.get(i));
         }
     }
 
