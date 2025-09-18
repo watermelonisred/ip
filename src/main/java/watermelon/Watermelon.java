@@ -81,6 +81,7 @@ public class Watermelon {
 
         try {
             Command command = parser.parseCommand(input);
+            assert command != null : "command should not be null";
             command.execute();
             return command.getMessage();
         } catch (WatermelonException e) {

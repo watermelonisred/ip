@@ -2,6 +2,8 @@ package watermelon;
 
 import java.util.Scanner;
 
+import watermelon.task.Task;
+
 /**
  * Handles all user interface interactions for the Watermelon chatbot application.
  *
@@ -27,18 +29,6 @@ public class Ui {
      * Returns the Watermelon logo and welcome message.
      */
     public String showWelcomeMessage() {
-        /* String logo = "__        __    _                           _            \n"
-                + "\\ \\      / /_ _| |_ ___ _ __ _ __ ___   ___| | ___  _ __  \n"
-                + " \\ \\ /\\ / / _` | __/ _ \\ '__| '_ ` _ \\ / _ \\ |/ _ \\| '_ \\ \n"
-                + "  \\ V  V / (_| | ||  __/ |  | | | | | |  __/ | (_) | | | |\n"
-                + "   \\_/\\_/ \\__,_|\\__\\___|_|  |_| |_| |_|\\___|_|\\___/|_| |_|\n";
-
-        System.out.println("Hello from\n" + logo);
-        System.out.println(INDENT + "____________________________________________________________");
-        System.out.println(INDENT + " Hello! I'm Watermelon\n" +
-                INDENT + " What can I do for you?");
-        System.out.println(INDENT + "____________________________________________________________");
-        */
         return "Hello! I'm Watermelon\n" + "What can I do for you?";
     }
 
@@ -46,11 +36,6 @@ public class Ui {
      * Closes the scanner and displays a goodbye message.
      */
     public String endChat() {
-        /* scanner.close();
-        System.out.println(INDENT + "____________________________________________________________");
-        System.out.println(INDENT + "Bye. Hope to see you again soon!");
-        System.out.println(INDENT + "____________________________________________________________");
-        */
         return "Bye. Hope to see you again soon! :)";
     }
 

@@ -17,6 +17,7 @@ public class FindCommand extends Command {
     @Override
     public void execute() throws StorageOperationException {
         ArrayList<Task> matchingTasks = taskList.findTask(keyword);
+        assert matchingTasks != null : "matchingTasks should not be null";
 
         if (matchingTasks.isEmpty()) {
             message = "Oops! Cannot find any matching tasks.";

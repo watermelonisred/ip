@@ -54,7 +54,10 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
+        assert input != null : "input should not be null";
         String response = watermelon.getResponse(input);
+        assert response != null : "response should not be null";
+
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getWatermelonDialog(response, watermelonImage)

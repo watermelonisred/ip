@@ -34,6 +34,7 @@ public class MarkCommand extends Command {
     @Override
     public void execute() throws StorageOperationException {
         Task task = taskList.markTask(taskNumber);
+        assert task != null : "task should not be null";
         storage.saveTasks(taskList);
         message = "Nice! I've marked this task as done:\n" + INDENT + task;
     }
