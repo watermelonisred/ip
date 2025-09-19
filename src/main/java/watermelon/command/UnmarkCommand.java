@@ -36,6 +36,7 @@ public class UnmarkCommand extends Command {
     @Override
     public void execute() throws StorageOperationException {
         Task task = taskList.unmarkTask(taskNumber);
+        assert task != null : "task should not be null";
         storage.saveTasks(taskList);
         message = ui.showTaskUnmarkedMessage(task);
     }

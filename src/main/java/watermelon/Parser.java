@@ -54,6 +54,8 @@ public class Parser {
      *                             match any known command.
      */
     public Command parseCommand(String input) throws WatermelonException {
+        assert input != null : "input must not be null";
+
         Matcher todo = Pattern.compile("^todo\\s*(.*)$").matcher(input);
         Matcher deadline = Pattern.compile(
                 "^deadline(?:\\s+([^/]+?))?(?:\\s*/\\s*(?:by\\s*(.+)?)?)?$").matcher(input);

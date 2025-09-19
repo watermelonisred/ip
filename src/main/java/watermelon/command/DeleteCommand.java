@@ -36,6 +36,7 @@ public class DeleteCommand extends Command {
     @Override
     public void execute() throws StorageOperationException {
         Task task = taskList.deleteTask(taskNumber);
+        assert task != null : "task should not be null";
         storage.saveTasks(taskList);
         message = ui.showTaskDeletedMessage(task, taskList.getSize());
     }
