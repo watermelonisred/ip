@@ -1,22 +1,18 @@
 package watermelon;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import watermelon.exception.WatermelonException;
-import watermelon.exception.InvalidCommandException;
-import watermelon.exception.EmptyTaskDescriptionException;
+import watermelon.command.*;
 import watermelon.exception.EmptyDateException;
+import watermelon.exception.EmptyTaskDescriptionException;
+import watermelon.exception.InvalidCommandException;
 import watermelon.exception.InvalidInputException;
-import watermelon.command.Command;
-import watermelon.command.ListCommand;
-import watermelon.command.MarkCommand;
-import watermelon.command.UnmarkCommand;
-import watermelon.command.TodoCommand;
-import watermelon.command.DeadlineCommand;
-import watermelon.command.EventCommand;
-import watermelon.command.DeleteCommand;
-import watermelon.command.FindCommand;
+import watermelon.exception.WatermelonException;
 
 /**
  * Parses raw user input strings and converts them into {@link Command} objects for execution.
@@ -58,14 +54,15 @@ public class Parser {
 
         Matcher todo = Pattern.compile("^todo\\s*(.*)$").matcher(input);
         Matcher deadline = Pattern.compile(
-                "^deadline(?:\\s+([^/]+?))?(?:\\s*/\\s*(?:by\\s*(.+)?)?)?$").matcher(input);
+                "^deadline\\s*([^/]*)(?:/\\s*by\\s*(.*))?$").matcher(input);
         Matcher event = Pattern.compile(
-                        "^event(?:\\s+([^/]+?))?(?:\\s*/\\s*from(?:\\s+([^/]+?))?)?(?:\\s*/\\s*to(?:\\s+(.+)?)?)?$")
+                        "^event\\s*([^/]*)(?:/\\s*from\\s*([^/]*))?(?:/\\s*to\\s*(.*))?$")
                 .matcher(input);
-        Matcher mark = Pattern.compile("^mark(?:\\s+(.+))?$").matcher(input);
-        Matcher unmark = Pattern.compile("^unmark(?:\\s+(.+))?$").matcher(input);
-        Matcher delete = Pattern.compile("^delete(?:\\s+(.+))?$").matcher(input);
-        Matcher find = Pattern.compile("find( .*)?").matcher(input);
+        Matcher mark = Pattern.compile("^mark\\s*(.*)$").matcher(input);
+        Matcher unmark = Pattern.compile("^unmark\\s*(.*)$").matcher(input);
+        Matcher delete = Pattern.compile("^delete\\s*(.*)$").matcher(input);
+        Matcher find = Pattern.compile("^find\\s*(.*)$").matcher(input);
+        Matcher schedule = Pattern.compile("^schedule\\s*(.*)$").matcher(input);
 
         if (input.equals("list")) { // returns a ListCommand
             return new ListCommand(taskList, ui);
@@ -83,6 +80,8 @@ public class Parser {
             return parseDeleteCommand(delete);
         } else if (find.matches()) { // returns a FindCommand
             return parseFindCommand(find);
+        } else if (schedule.matches()) {
+            return parseScheduleCommand(schedule);
         } else { // invalid command
             throw new InvalidCommandException();
         }
@@ -165,5 +164,25 @@ public class Parser {
             throw new InvalidInputException("missing keyword!");
         }
         return new FindCommand(taskList, find.group(1).trim(), ui);
+    }
+
+    private Command parseScheduleCommand(Matcher schedule) throws InvalidInputException, DateTimeParseException {
+        if (schedule.group(1) == null || schedule.group(1).isBlank()) {
+            throw new InvalidInputException("missing date!");
+        }
+        LocalDate date = stringToDate(schedule.group(1).trim());
+        return new ScheduleCommand(taskList, date, ui);
+    }
+
+    /**
+     * Converts a string with "ddMMyyyy" format into a {@link LocalDate}.
+     * @param input String representing a date
+     * @return A {@link LocalDate} representing the specified date.
+     * @throws DateTimeParseException If input does not match the "ddMMyyyy" pattern.
+     */
+    private LocalDate stringToDate(String input) throws DateTimeParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+        LocalDate date = LocalDate.parse(input, formatter);
+        return date;
     }
 }

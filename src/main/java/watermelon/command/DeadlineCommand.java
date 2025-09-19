@@ -8,7 +8,7 @@ import watermelon.task.Task;
 
 /**
  * Represents a deadline command that contains information on a deadline task (task description, deadline and storage).
- * Upon execution, deadline task is added to tasklist, task completion message is printed and task is saved to storage.
+ * Upon execution, deadline task is added to tasklist, task added message is saved and task is saved to storage.
  */
 public class DeadlineCommand extends Command {
     private String description;

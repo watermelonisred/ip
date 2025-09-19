@@ -9,7 +9,7 @@ import watermelon.task.Task;
 /**
  * Represents an unmark command that contains information on tasklist, task number and storage.
  * Upon execution, task corresponding to task number is marked as undone in tasklist.
- * Unmark completion message is printed and changes made are saved to storage.
+ * Unmark completion message is saved and changes made are saved to storage.
  */
 public class UnmarkCommand extends Command {
     private int taskNumber;

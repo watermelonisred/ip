@@ -18,6 +18,7 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) throws DateTimeParseException {
         super(description);
+        this.taskType = "E";
         this.from = stringToDateTime(from);
         this.to = stringToDateTime(to);
     }
@@ -27,8 +28,17 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to, boolean isDone) throws DateTimeParseException {
         super(description, isDone);
+        this.taskType = "E";
         this.from = stringToDateTime(from);
         this.to = stringToDateTime(to);
+    }
+
+    public LocalDateTime getFrom() {
+        return this.from;
+    }
+
+    public LocalDateTime getTo() {
+        return this.to;
     }
 
     /**

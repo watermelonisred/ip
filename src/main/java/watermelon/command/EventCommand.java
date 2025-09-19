@@ -8,7 +8,7 @@ import watermelon.task.Task;
 
 /**
  * Represents an event command that contains information on event task (task description, start & end date and storage).
- * Upon execution, event task is added to taskList, task completion message is printed and task is saved to storage.
+ * Upon execution, event task is added to taskList, task added message is saved and task is saved to storage.
  */
 public class EventCommand extends Command {
     private String description;

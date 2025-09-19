@@ -1,15 +1,22 @@
 package watermelon.command;
 
+import java.util.ArrayList;
+
 import watermelon.TaskList;
 import watermelon.Ui;
 import watermelon.exception.StorageOperationException;
 import watermelon.task.Task;
 
-import java.util.ArrayList;
-
+/**
+ * Represents a find command that contains a keyword, ui, storage, tasklist and message.
+ * Upon execution, tasks with description matching the keyword are saved into the message.
+ */
 public class FindCommand extends Command {
     private String keyword;
 
+    /**
+     * Constructs a FindCommand object with given details.
+     */
     public FindCommand(TaskList taskList, String keyword, Ui ui) {
         super.taskList = taskList;
         super.ui = ui;

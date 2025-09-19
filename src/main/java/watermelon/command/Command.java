@@ -2,6 +2,7 @@ package watermelon.command;
 
 import watermelon.TaskList;
 import watermelon.Ui;
+import watermelon.exception.InvalidTaskTypeException;
 import watermelon.exception.StorageOperationException;
 
 /**
@@ -18,7 +19,7 @@ public abstract class Command {
      * Executes the command by modifying the TaskList accordingly and saving the task where needed.
      * @throws StorageOperationException when a problem occurs during saving of task to data file.
      */
-    public abstract void execute() throws StorageOperationException;
+    public abstract void execute() throws StorageOperationException, InvalidTaskTypeException;
 
     /**
      * Returns the message from Watermelon responding to user's command.

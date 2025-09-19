@@ -1,9 +1,11 @@
 package watermelon;
 
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+import watermelon.exception.InvalidTaskTypeException;
 import watermelon.task.Deadline;
 import watermelon.task.Event;
 import watermelon.task.Task;
@@ -133,7 +135,7 @@ public class TaskList {
     }
 
     /**
-     * Finds tasks with description matching given keyword from the TaskList and prints to standard output.
+     * Finds tasks with description matching given keyword from the TaskList and returns an ArrayList.
      *
      * @param keyword The keyword of the task to be searched.
      */
@@ -147,5 +149,40 @@ public class TaskList {
         }
 
         return matchingTasks;
+    }
+
+    /**
+     * Finds tasks that are scheduled on the specified date from the TaskList and returns an ArrayList.
+     *
+     * @param date The date to be searched.
+     */
+    public ArrayList<Task> findScheduledTask(LocalDate date) throws InvalidTaskTypeException {
+        ArrayList<Task> scheduledTasks = new ArrayList<>();
+
+        for (Task task : tasks) {
+            switch (task.getTaskType()) {
+            case "T":
+                scheduledTasks.add(task); // add all todo tasks into scheduledTasks
+                break;
+            case "D":
+                Deadline deadlineTask = (Deadline) task;
+                boolean deadlineEqualsSearchDate = deadlineTask.getBy().toLocalDate().equals(date);
+                if (deadlineEqualsSearchDate) {
+                    scheduledTasks.add(task);
+                }
+                break;
+            case "E":
+                Event eventTask = (Event) task;
+                boolean eventIsOnSearchDate = !date.isBefore(eventTask.getFrom().toLocalDate())
+                        && !date.isAfter(eventTask.getTo().toLocalDate());
+                if (eventIsOnSearchDate) {
+                    scheduledTasks.add(task);
+                }
+                break;
+            default:
+                throw new InvalidTaskTypeException();
+            }
+        }
+        return scheduledTasks;
     }
 }

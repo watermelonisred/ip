@@ -16,6 +16,7 @@ public class Deadline extends Task {
      */
     public Deadline(String description, String by) throws DateTimeParseException {
         super(description);
+        this.taskType = "D";
         this.by = stringToDateTime(by);
     }
 
@@ -24,7 +25,12 @@ public class Deadline extends Task {
      */
     public Deadline(String description, String by, boolean isDone) throws DateTimeParseException {
         super(description, isDone);
+        this.taskType = "D";
         this.by = stringToDateTime(by);
+    }
+
+    public LocalDateTime getBy() {
+        return this.by;
     }
 
     /**
