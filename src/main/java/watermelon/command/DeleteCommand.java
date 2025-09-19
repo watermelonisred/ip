@@ -2,6 +2,7 @@ package watermelon.command;
 
 import watermelon.Storage;
 import watermelon.TaskList;
+import watermelon.Ui;
 import watermelon.exception.StorageOperationException;
 import watermelon.task.Task;
 
@@ -21,8 +22,9 @@ public class DeleteCommand extends Command {
      * @param taskNumber Task number of task to be deleted.
      * @param storage Storage where changes made are saved.
      */
-    public DeleteCommand(TaskList taskList, int taskNumber, Storage storage) {
+    public DeleteCommand(TaskList taskList, int taskNumber, Storage storage, Ui ui) {
         super.taskList = taskList;
+        super.ui = ui;
         this.taskNumber = taskNumber;
         this.storage = storage;
     }
@@ -36,9 +38,7 @@ public class DeleteCommand extends Command {
         Task task = taskList.deleteTask(taskNumber);
         assert task != null : "task should not be null";
         storage.saveTasks(taskList);
-        message = "Noted. I've removed this task:\n"
-                + INDENT + task + "\n"
-                + String.format("Now you have %d tasks in the list.", taskList.getSize());
+        message = ui.showTaskDeletedMessage(task, taskList.getSize());
     }
 
     @Override

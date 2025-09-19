@@ -29,16 +29,19 @@ import watermelon.command.FindCommand;
 public class Parser {
     private TaskList taskList;
     private Storage storage;
+    private Ui ui;
 
     /**
      * Constructs a new {@code Parser} instance which uses the given task list and storage.
      *
      * @param taskList The {@link TaskList} on which commands will operate.
      * @param storage  The {@link Storage} used to save and load changes.
+     * @param ui The {@link Ui} used to generate chatbot response messages.
      */
-    public Parser(TaskList taskList, Storage storage) {
+    public Parser(TaskList taskList, Storage storage, Ui ui) {
         this.taskList = taskList;
         this.storage = storage;
+        this.ui = ui;
     }
 
     /**
@@ -65,74 +68,102 @@ public class Parser {
         Matcher find = Pattern.compile("find( .*)?").matcher(input);
 
         if (input.equals("list")) { // returns a ListCommand
-            return new ListCommand(taskList);
+            return new ListCommand(taskList, ui);
         } else if (mark.matches()) { // returns a MarkCommand
-            if (mark.group(1) == null || mark.group(1).isEmpty()) {
-                throw new InvalidInputException("missing task number!");
-            }
-            if (!mark.group(1).trim().matches("-?\\d+")) {
-                throw new InvalidInputException("not a valid integer!");
-            }
-            int taskNumber = Integer.parseInt(mark.group(1));
-            if (taskNumber < 1 || taskNumber > taskList.getSize()) {
-                throw new InvalidInputException("not a valid task number!");
-            }
-            return new MarkCommand(taskList, taskNumber, storage);
+            return parseMarkCommand(mark);
         } else if (unmark.matches()) { // returns an UnmarkCommand
-            if (unmark.group(1) == null || unmark.group(1).isEmpty()) {
-                throw new InvalidInputException("missing task number!");
-            }
-            if (!unmark.group(1).trim().matches("-?\\d+")) {
-                throw new InvalidInputException("not a valid integer!");
-            }
-            int taskNumber = Integer.parseInt(unmark.group(1));
-            if (taskNumber < 1 || taskNumber > taskList.getSize()) {
-                throw new InvalidInputException("not a valid task number!");
-            }
-            return new UnmarkCommand(taskList, taskNumber, storage);
+            return parseUnmarkCommand(unmark);
         } else if (todo.matches()) { // returns a TodoCommand
-            if (todo.group(1).isEmpty()) {
-                throw new EmptyTaskDescriptionException("todo task description is empty!");
-            }
-            return new TodoCommand(taskList, todo.group(1).trim(), storage);
+            return parseTodoCommand(todo);
         } else if (deadline.matches()) { // returns a DeadlineCommand
-            if (deadline.group(1) == null || deadline.group(1).isEmpty()) {
-                throw new EmptyTaskDescriptionException("deadline task description is empty!");
-            }
-            if (deadline.group(2) == null || deadline.group(2).isEmpty()) {
-                throw new EmptyDateException();
-            }
-            return new DeadlineCommand(taskList, deadline.group(1).trim(), deadline.group(2), storage);
+            return parseDeadlineCommand(deadline);
         } else if (event.matches()) { // returns a EventCommand
-            if (event.group(1) == null || event.group(1).isEmpty()) {
-                throw new EmptyTaskDescriptionException("event task description is empty!");
-            }
-            if (event.group(2) == null || event.group(2).isEmpty()) {
-                throw new EmptyDateException("start date/time is missing!");
-            }
-            if (event.group(3) == null || event.group(3).isEmpty()) {
-                throw new EmptyDateException("end date/time is missing!");
-            }
-            return new EventCommand(taskList, event.group(1).trim(), event.group(2).trim(), event.group(3), storage);
+            return parseEventCommand(event);
         } else if (delete.matches()) { // returns a DeleteCommand
-            if (delete.group(1) == null || delete.group(1).isEmpty()) {
-                throw new InvalidInputException("missing task number!");
-            }
-            if (!delete.group(1).trim().matches("-?\\d+")) {
-                throw new InvalidInputException("not a valid integer!");
-            }
-            int taskNumber = Integer.parseInt(delete.group(1));
-            if (taskNumber < 1 || taskNumber > taskList.getSize()) {
-                throw new InvalidInputException("not a valid task number!");
-            }
-            return new DeleteCommand(taskList, taskNumber, storage);
+            return parseDeleteCommand(delete);
         } else if (find.matches()) { // returns a FindCommand
-            if (find.group(1) == null || find.group(1).isBlank()) {
-                throw new InvalidInputException("missing keyword!");
-            }
-            return new FindCommand(taskList, find.group(1).trim());
+            return parseFindCommand(find);
         } else { // invalid command
             throw new InvalidCommandException();
         }
+    }
+
+    private Command parseMarkCommand(Matcher mark) throws WatermelonException {
+        if (mark.group(1) == null || mark.group(1).isEmpty()) {
+            throw new InvalidInputException("missing task number!");
+        }
+        if (!mark.group(1).trim().matches("-?\\d+")) {
+            throw new InvalidInputException("not a valid integer!");
+        }
+        int taskNumber = Integer.parseInt(mark.group(1));
+        if (taskNumber < 1 || taskNumber > taskList.getSize()) {
+            throw new InvalidInputException("not a valid task number!");
+        }
+        return new MarkCommand(taskList, taskNumber, storage, ui);
+    }
+
+    private Command parseUnmarkCommand(Matcher unmark) throws WatermelonException {
+        if (unmark.group(1) == null || unmark.group(1).isEmpty()) {
+            throw new InvalidInputException("missing task number!");
+        }
+        if (!unmark.group(1).trim().matches("-?\\d+")) {
+            throw new InvalidInputException("not a valid integer!");
+        }
+        int taskNumber = Integer.parseInt(unmark.group(1));
+        if (taskNumber < 1 || taskNumber > taskList.getSize()) {
+            throw new InvalidInputException("not a valid task number!");
+        }
+        return new UnmarkCommand(taskList, taskNumber, storage, ui);
+    }
+
+    private Command parseTodoCommand(Matcher todo) throws WatermelonException {
+        if (todo.group(1).isEmpty()) {
+            throw new EmptyTaskDescriptionException("todo task description is empty!");
+        }
+        return new TodoCommand(taskList, todo.group(1).trim(), storage, ui);
+    }
+
+    private Command parseDeadlineCommand(Matcher deadline) throws WatermelonException {
+        if (deadline.group(1) == null || deadline.group(1).isEmpty()) {
+            throw new EmptyTaskDescriptionException("deadline task description is empty!");
+        }
+        if (deadline.group(2) == null || deadline.group(2).isEmpty()) {
+            throw new EmptyDateException();
+        }
+        return new DeadlineCommand(taskList, deadline.group(1).trim(), deadline.group(2), storage, ui);
+    }
+
+    private Command parseEventCommand(Matcher event) throws WatermelonException {
+        if (event.group(1) == null || event.group(1).isEmpty()) {
+            throw new EmptyTaskDescriptionException("event task description is empty!");
+        }
+        if (event.group(2) == null || event.group(2).isEmpty()) {
+            throw new EmptyDateException("start date/time is missing!");
+        }
+        if (event.group(3) == null || event.group(3).isEmpty()) {
+            throw new EmptyDateException("end date/time is missing!");
+        }
+        return new EventCommand(taskList, event.group(1).trim(), event.group(2).trim(), event.group(3), storage, ui);
+    }
+
+    private Command parseDeleteCommand(Matcher delete) throws WatermelonException {
+        if (delete.group(1) == null || delete.group(1).isEmpty()) {
+            throw new InvalidInputException("missing task number!");
+        }
+        if (!delete.group(1).trim().matches("-?\\d+")) {
+            throw new InvalidInputException("not a valid integer!");
+        }
+        int taskNumber = Integer.parseInt(delete.group(1));
+        if (taskNumber < 1 || taskNumber > taskList.getSize()) {
+            throw new InvalidInputException("not a valid task number!");
+        }
+        return new DeleteCommand(taskList, taskNumber, storage, ui);
+    }
+
+    private Command parseFindCommand(Matcher find) throws WatermelonException {
+        if (find.group(1) == null || find.group(1).isBlank()) {
+            throw new InvalidInputException("missing keyword!");
+        }
+        return new FindCommand(taskList, find.group(1).trim(), ui);
     }
 }

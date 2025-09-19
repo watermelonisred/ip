@@ -1,6 +1,7 @@
 package watermelon.command;
 
 import watermelon.TaskList;
+import watermelon.Ui;
 import watermelon.exception.StorageOperationException;
 
 /**
@@ -11,6 +12,7 @@ public abstract class Command {
     protected static final String INDENT = " ".repeat(4);
     TaskList taskList;
     String message;
+    Ui ui;
 
     /**
      * Executes the command by modifying the TaskList accordingly and saving the task where needed.

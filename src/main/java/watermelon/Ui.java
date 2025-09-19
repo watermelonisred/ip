@@ -1,67 +1,82 @@
 package watermelon;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
 import watermelon.task.Task;
 
 /**
  * Handles all user interface interactions for the Watermelon chatbot application.
  *
- * <p> This class manages displaying welcome/exit messages,
- * reading user input, printing error messages and printing separator lines.
- * It encapsulates a {@link Scanner} to read commands from standard input. </p>
+ * <p> This class manages generating welcome/exit messages and chatbot responses to different commands. </p>
  */
 public class Ui {
     /** Indentation string used for console output. */
     private static final String INDENT = " ".repeat(4);
 
-    /** Scanner for reading user input from standard input. */
-    private Scanner scanner;
-
     /**
-     * Creates a new {@code Ui} instance and initializes the input scanner.
-     */
-    public Ui() {
-        scanner = new Scanner(System.in);
-    }
-
-    /**
-     * Returns the Watermelon logo and welcome message.
+     * Returns the welcome message from Watermelon chatbot.
      */
     public String showWelcomeMessage() {
         return "Hello! I'm Watermelon\n" + "What can I do for you?";
     }
 
+    /** Returns the chatbot's response to a TodoCommand, DeadlineCommand or EventCommand. **/
+    public String showTaskAddedMessage(Task task, int taskListSize) {
+        return "Got it. I've added this task:\n"
+                + INDENT + task + "\n"
+                + String.format("Now you have %d tasks in the list.", taskListSize);
+    }
+
+    /** Returns the chatbot's response to a DeleteCommand. **/
+    public String showTaskDeletedMessage(Task task, int taskListSize) {
+        return "Noted. I've removed this task:\n"
+                + INDENT + task + "\n"
+                + String.format("Now you have %d tasks in the list.", taskListSize);
+    }
+
+    /** Returns the chatbot's response to a FindCommand when there are no matching tasks found. **/
+    public String showNoTasksFoundMessage() {
+        return "Oops! Cannot find any matching tasks.";
+    }
+
+    /** Returns the chatbot's response to a FindCommand when there are matching tasks found. **/
+    public String showTasksFoundMessage(ArrayList<Task> matchingTasks) {
+        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:");
+
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            int task_index = i + 1;
+            sb.append("\n" + task_index + "." + matchingTasks.get(i));
+        }
+
+        return sb.toString();
+    }
+
+    /** Returns the chatbot's response to a ListCommand. **/
+    public String showTasksListedMessage(TaskList taskList) {
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
+
+        for (int i = 0; i < taskList.getSize(); i++) {
+            int task_index = i + 1;
+            sb.append("\n" + INDENT + task_index + "." + taskList.getTask(i));
+        }
+
+        return sb.toString();
+    }
+
+    /** Returns the chatbot's response to a MarkCommand. **/
+    public String showTaskMarkedMessage(Task task) {
+        return "Nice! I've marked this task as done:\n" + INDENT + task;
+    }
+
+    /** Returns the chatbot's response to a UnmarkCommand. **/
+    public String showTaskUnmarkedMessage(Task task) {
+        return "OK, I've marked this task as not done yet:\n" + INDENT + task;
+    }
+
     /**
-     * Closes the scanner and displays a goodbye message.
+     * Returns a goodbye message.
      */
     public String endChat() {
         return "Bye. Hope to see you again soon! :)";
-    }
-
-    /**
-     * Reads the next line of input from the user.
-     *
-     * @return The line entered by the user.
-     */
-    public String readCommand() { // returns input from user
-        return scanner.nextLine();
-    }
-
-    /**
-     * Displays an error message to the console.
-     *
-     * @param message The error message to display.
-     */
-    public void showErrorMessage(String message) {
-        System.out.println(message);
-
-    }
-
-    /**
-     * Returns a separator line.
-     */
-    public String showLine() {
-        return INDENT + "____________________________________________________________";
     }
 }
