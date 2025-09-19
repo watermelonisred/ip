@@ -9,7 +9,7 @@ import watermelon.task.Task;
 /**
  * Represents a delete command that contains information on task number and storage.
  * Upon execution, task corresponding to task number is deleted from tasklist.
- * Deletion completion message is printed and changes made are saved to storage.
+ * Deletion completion message is saved and changes made to task list are saved to storage.
  */
 public class DeleteCommand extends Command {
     private int taskNumber;

@@ -4,8 +4,8 @@ import watermelon.TaskList;
 import watermelon.Ui;
 
 /**
- * Represents a list command that contains a tasklist.
- * Upon execution, tasks in tasklist are printed.
+ * Represents a list command that contains a tasklist, ui, storage and message.
+ * Upon execution, tasks in tasklist are saved into the message.
  */
 public class ListCommand extends Command {
     /**

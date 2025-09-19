@@ -8,10 +8,9 @@ package watermelon.task;
  * such as marking tasks as done or undone, and displaying task status.</p>
  */
 public class Task {
-    /** The description of the task */
     protected String description;
-    /** The completion status of the task */
     protected boolean isDone;
+    protected String taskType;
 
     /**
      * Constructs a new Task with the specified description.
@@ -53,6 +52,10 @@ public class Task {
 
     public String getDescription() {
         return this.description;
+    }
+
+    public String getTaskType() {
+        return this.taskType;
     }
 
     /**

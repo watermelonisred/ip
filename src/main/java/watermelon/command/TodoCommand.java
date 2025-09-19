@@ -8,7 +8,7 @@ import watermelon.task.Task;
 
 /**
  * Represents a todo command that contains information on a todo task (task description and storage).
- * Upon execution, todo task is added to tasklist, task completion message is printed and task is saved to storage.
+ * Upon execution, todo task is added to tasklist, task completion message is saved and task is saved to storage.
  */
 public class TodoCommand extends Command {
     private String description;
