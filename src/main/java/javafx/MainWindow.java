@@ -72,6 +72,7 @@ public class MainWindow extends AnchorPane {
 
         userInput.clear();
 
+        // Used Claude to generate following code to close the program
         // Close program after showing goodbye message
         if (input.equals("bye")) {
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> Platform.exit()));

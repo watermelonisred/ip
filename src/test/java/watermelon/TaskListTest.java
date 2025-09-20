@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import watermelon.exception.InvalidDateTimeException;
 import watermelon.task.Task;
 
+// Used Claude to generate the following test cases for TaskList class
 public class TaskListTest {
 
     @Test

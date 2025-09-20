@@ -73,7 +73,10 @@ public class Storage {
      *
      * @param tasklist The list of tasks to save.
      * @throws StorageOperationException If there's an error writing to file.
+     *
+     * Written with the help of Claude.
      */
+    @SuppressWarnings("checkstyle:JavadocTagContinuationIndentation")
     public void saveTasks(TaskList tasklist) throws StorageOperationException {
         createDirectory();
 
@@ -88,7 +91,10 @@ public class Storage {
      * Creates the parent directory if it doesn't exist.
      *
      * @throws StorageOperationException If directory creation fails.
+     *
+     * Written with the help of Claude.
      */
+    @SuppressWarnings("checkstyle:JavadocTagContinuationIndentation")
     private void createDirectory() throws StorageOperationException {
         try {
             Path parentDir = Paths.get(filePath).getParent();

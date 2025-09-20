@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import watermelon.task.Task;
 import watermelon.task.Todo;
 
+// Used Claude to generate the following test cases for Storage class
 public class StorageTest {
 
     @Test
