@@ -35,7 +35,7 @@
     -fx-rotate: 0;
 }
 
-/* Lighter background colour for user-side dialog boxes */
+/* Used GitHub Copilot to generate the following CSS code for user label. */
 .user-label {
     -fx-background-color: linear-gradient(to bottom right, #fff3ee, #ffd6cc);
     -fx-border-color: #ffb3a7;
@@ -44,6 +44,7 @@
     -fx-border-radius: 1em 1em 0 1em;
 }
 
+/* Used GitHub Copilot to generate the following CSS code for error label. */
 .error-label {
     -fx-background-color: linear-gradient(to bottom right, #ffb3b3, #ff4d4d);
     -fx-border-color: #d90000;

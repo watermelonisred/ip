@@ -2,8 +2,6 @@ package watermelon.command;
 
 import watermelon.TaskList;
 import watermelon.Ui;
-import watermelon.exception.InvalidDateTimeException;
-import watermelon.exception.InvalidTaskTypeException;
 import watermelon.exception.StorageOperationException;
 import watermelon.exception.WatermelonException;
 

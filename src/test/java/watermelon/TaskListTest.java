@@ -1,17 +1,17 @@
 package watermelon;
 
-import org.junit.jupiter.api.Test;
-
-import watermelon.task.Task;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+
+import watermelon.exception.InvalidDateTimeException;
+import watermelon.task.Task;
 
 public class TaskListTest {
 
@@ -88,7 +88,7 @@ public class TaskListTest {
         try {
             taskList.addDeadline("submit assignment", "invalid-date");
             fail();
-        } catch (DateTimeParseException e) {
+        } catch (InvalidDateTimeException e) {
             // exception thrown as expected
         }
     }
@@ -111,7 +111,7 @@ public class TaskListTest {
         try {
             taskList.addEvent("team meeting", "invalid-date", "2025-12-01 16:00");
             fail();
-        } catch (DateTimeParseException e) {
+        } catch (InvalidDateTimeException e) {
             // exception thrown as expected
         }
     }
