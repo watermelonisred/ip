@@ -34,3 +34,22 @@
     /* Rotate image clockwise by degrees. */
     -fx-rotate: 0;
 }
+
+/* Lighter background colour for user-side dialog boxes */
+.user-label {
+    -fx-background-color: linear-gradient(to bottom right, #fff3ee, #ffd6cc);
+    -fx-border-color: #ffb3a7;
+    -fx-border-width: 2px;
+    -fx-background-radius: 1em 1em 0 1em;
+    -fx-border-radius: 1em 1em 0 1em;
+}
+
+.error-label {
+    -fx-background-color: linear-gradient(to bottom right, #ffb3b3, #ff4d4d);
+    -fx-border-color: #d90000;
+    -fx-border-width: 2px;
+    -fx-background-radius: 1em 1em 1em 0;
+    -fx-border-radius: 1em 1em 1em 0;
+    -fx-text-fill: #800000;
+    -fx-font-weight: bold;
+}

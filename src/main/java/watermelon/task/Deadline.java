@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import watermelon.exception.InvalidDateTimeException;
+
 /**
  * Represents a Deadline task with a due date.
  */
@@ -14,7 +16,7 @@ public class Deadline extends Task {
     /**
      * Constructs a new Deadline task with the specified description and due date.
      */
-    public Deadline(String description, String by) throws DateTimeParseException {
+    public Deadline(String description, String by) throws InvalidDateTimeException {
         super(description);
         this.taskType = "D";
         this.by = stringToDateTime(by);
@@ -23,7 +25,7 @@ public class Deadline extends Task {
     /**
      * Constructs a new Deadline task with the specified description, due date and completion status.
      */
-    public Deadline(String description, String by, boolean isDone) throws DateTimeParseException {
+    public Deadline(String description, String by, boolean isDone) throws InvalidDateTimeException {
         super(description, isDone);
         this.taskType = "D";
         this.by = stringToDateTime(by);
@@ -37,12 +39,17 @@ public class Deadline extends Task {
      * Converts a string with "ddMMyyyy HHmm" format into a {@link LocalDateTime}.
      * @param input String representing a date & time.
      * @return A {@link LocalDateTime} representing the specified date & time.
-     * @throws DateTimeParseException If input does not match the "ddMMyyyy HHmm" pattern.
+     * @throws InvalidDateTimeException If input does not match the "ddMMyyyy HHmm" pattern.
      */
-    private LocalDateTime stringToDateTime(String input) throws DateTimeParseException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
-        LocalDateTime dateTime = LocalDateTime.parse(input, formatter);
-        return dateTime;
+    private LocalDateTime stringToDateTime(String input) throws InvalidDateTimeException {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy HHmm");
+            LocalDateTime dateTime = LocalDateTime.parse(input, formatter);
+            return dateTime;
+        } catch (DateTimeParseException e) {
+            throw new InvalidDateTimeException(
+                    "Invalid date/time format. Please use ddMMyyyy HHmm format! (Eg. 25092025 1800)");
+        }
     }
 
     /**

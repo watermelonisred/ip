@@ -58,10 +58,18 @@ public class MainWindow extends AnchorPane {
         String response = watermelon.getResponse(input);
         assert response != null : "response should not be null";
 
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getWatermelonDialog(response, watermelonImage)
-        );
+        if (response.startsWith("Error:") || response.startsWith("Invalid")) {
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getUserDialog(input, userImage),
+                    DialogBox.getErrorDialog(response, watermelonImage)
+            );
+        } else {
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getUserDialog(input, userImage),
+                    DialogBox.getWatermelonDialog(response, watermelonImage)
+            );
+        }
+
         userInput.clear();
 
         // Close program after showing goodbye message

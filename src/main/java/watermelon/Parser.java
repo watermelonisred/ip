@@ -1,16 +1,25 @@
 package watermelon;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import watermelon.command.*;
+import watermelon.command.Command;
+import watermelon.command.DeadlineCommand;
+import watermelon.command.DeleteCommand;
+import watermelon.command.EventCommand;
+import watermelon.command.FindCommand;
+import watermelon.command.ListCommand;
+import watermelon.command.MarkCommand;
+import watermelon.command.ScheduleCommand;
+import watermelon.command.TodoCommand;
+import watermelon.command.UnmarkCommand;
 import watermelon.exception.EmptyDateException;
 import watermelon.exception.EmptyTaskDescriptionException;
 import watermelon.exception.InvalidCommandException;
+import watermelon.exception.InvalidDateTimeException;
 import watermelon.exception.InvalidInputException;
 import watermelon.exception.WatermelonException;
 
@@ -46,8 +55,8 @@ public class Parser {
      * @param input The full line of user input to parse.
      * @return A {@link Command} representing the user’s instruction.
      * @throws WatermelonException If the input is invalid, missing required fields,
-     *                             refers to a non-existent task number, or does not
-     *                             match any known command.
+     *                             refers to a non-existent task number, does not match required date format,
+     *                             or does not match any known command.
      */
     public Command parseCommand(String input) throws WatermelonException {
         assert input != null : "input must not be null";
@@ -166,7 +175,7 @@ public class Parser {
         return new FindCommand(taskList, find.group(1).trim(), ui);
     }
 
-    private Command parseScheduleCommand(Matcher schedule) throws InvalidInputException, DateTimeParseException {
+    private Command parseScheduleCommand(Matcher schedule) throws InvalidInputException, InvalidDateTimeException {
         if (schedule.group(1) == null || schedule.group(1).isBlank()) {
             throw new InvalidInputException("missing date!");
         }
@@ -180,9 +189,14 @@ public class Parser {
      * @return A {@link LocalDate} representing the specified date.
      * @throws DateTimeParseException If input does not match the "ddMMyyyy" pattern.
      */
-    private LocalDate stringToDate(String input) throws DateTimeParseException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
-        LocalDate date = LocalDate.parse(input, formatter);
-        return date;
+    private LocalDate stringToDate(String input) throws InvalidDateTimeException {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+            LocalDate date = LocalDate.parse(input, formatter);
+            return date;
+        } catch (DateTimeParseException e) {
+            throw new InvalidDateTimeException(
+                    "Invalid date format. Please use ddMMyyyy format! (Eg. 25092025)");
+        }
     }
 }

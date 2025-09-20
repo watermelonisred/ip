@@ -3,6 +3,7 @@ package watermelon.command;
 import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.Ui;
+import watermelon.exception.InvalidDateTimeException;
 import watermelon.exception.StorageOperationException;
 import watermelon.task.Task;
 
@@ -39,7 +40,7 @@ public class EventCommand extends Command {
      * @throws StorageOperationException {@inheritDoc}
      */
     @Override
-    public void execute() throws StorageOperationException {
+    public void execute() throws StorageOperationException, InvalidDateTimeException {
         Task task = taskList.addEvent(description, from, to);
         assert task != null : "task should not be null";
         storage.saveTasks(taskList);

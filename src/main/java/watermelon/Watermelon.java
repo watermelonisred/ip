@@ -1,7 +1,5 @@
 package watermelon;
 
-import java.time.format.DateTimeParseException;
-
 import watermelon.command.Command;
 import watermelon.exception.WatermelonException;
 
@@ -56,8 +54,6 @@ public class Watermelon {
             return command.getMessage();
         } catch (WatermelonException e) {
             return "Error: " + e.getMessage();
-        } catch (DateTimeParseException e) {
-            return "Invalid date/time format. Please input date/time in ddMMyyyy HHmm format!";
         }
     }
 

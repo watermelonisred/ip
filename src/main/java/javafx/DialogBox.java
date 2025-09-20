@@ -71,12 +71,21 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img, 70);
+        DialogBox db = new DialogBox(text, img, 65);
+        db.dialog.getStyleClass().add("user-label");
+        return db;
     }
 
     public static DialogBox getWatermelonDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
+        return db;
+    }
+
+    public static DialogBox getErrorDialog(String text, Image img) {
+        DialogBox db = new DialogBox(text, img);
+        db.flip();
+        db.dialog.getStyleClass().add("error-label");
         return db;
     }
 }
