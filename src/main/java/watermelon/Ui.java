@@ -19,7 +19,7 @@ public class Ui {
      * Returns the welcome message from Watermelon chatbot.
      */
     public String showWelcomeMessage() {
-        return "Hello! I'm Watermelon\n" + "What can I do for you?";
+        return "Hello! I'm Watermelon \uD83C\uDF49\n" + "What can I do for you?";
     }
 
     /** Returns the chatbot's response to a TodoCommand, DeadlineCommand or EventCommand. **/
@@ -31,19 +31,19 @@ public class Ui {
 
     /** Returns the chatbot's response to a DeleteCommand. **/
     public String showTaskDeletedMessage(Task task, int taskListSize) {
-        return "Noted. I've removed this task:\n"
+        return "OK. I've removed this task:\n"
                 + INDENT + task + "\n"
                 + String.format("Now you have %d tasks in the list.", taskListSize);
     }
 
     /** Returns the chatbot's response to a FindCommand when there are no matching tasks found. **/
     public String showNoTasksFoundMessage() {
-        return "Oops! Cannot find any matching tasks.";
+        return "Oops! I can't find any matching tasks.";
     }
 
     /** Returns the chatbot's response to a FindCommand when there are matching tasks found. **/
     public String showTasksFoundMessage(ArrayList<Task> matchingTasks) {
-        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:");
+        StringBuilder sb = new StringBuilder("Here are the matching tasks I found:");
 
         for (int i = 0; i < matchingTasks.size(); i++) {
             int task_index = i + 1;
@@ -77,13 +77,13 @@ public class Ui {
 
     /** Returns the chatbot's response to a ScheduleCommand when there are no scheduled tasks. **/
     public String showNoTasksScheduledMessage() {
-        return "No tasks scheduled for today!";
+        return "No tasks scheduled for today! :)";
     }
 
     /** Returns the chatbot's response to a FindCommand when there are scheduled tasks. **/
     public String showTasksScheduledMessage(ArrayList<Task> scheduledTasks, LocalDate date) {
         String dateInString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        StringBuilder sb = new StringBuilder(String.format("Here are the scheduled tasks for %s:", dateInString));
+        StringBuilder sb = new StringBuilder(String.format("Here are your scheduled tasks for %s:", dateInString));
 
         for (int i = 0; i < scheduledTasks.size(); i++) {
             int task_index = i + 1;
@@ -97,6 +97,6 @@ public class Ui {
      * Returns a goodbye message.
      */
     public String endChat() {
-        return "Bye. Hope to see you again soon! :)";
+        return "Bye! Hope to see you again soon! :D";
     }
 }
