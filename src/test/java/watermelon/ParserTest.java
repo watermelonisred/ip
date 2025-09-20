@@ -1,16 +1,23 @@
 package watermelon;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
-import watermelon.command.*;
-import watermelon.exception.WatermelonException;
-import watermelon.task.Task;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+
+import watermelon.command.Command;
+import watermelon.command.DeadlineCommand;
+import watermelon.command.DeleteCommand;
+import watermelon.command.EventCommand;
+import watermelon.command.ListCommand;
+import watermelon.command.MarkCommand;
+import watermelon.command.TodoCommand;
+import watermelon.command.UnmarkCommand;
+import watermelon.exception.WatermelonException;
+import watermelon.task.Task;
 
 public class ParserTest {
     @Test
@@ -38,7 +45,7 @@ public class ParserTest {
     @Test
     public void parseCommand_todoEmptyDescription_exceptionThrown() {
         TaskList taskList = new TaskList(new ArrayList<Task>());
-        Storage storage = new Storage("test.txt")
+        Storage storage = new Storage("test.txt");
         Ui ui = new Ui();
         Parser parser = new Parser(taskList, storage, ui);
 

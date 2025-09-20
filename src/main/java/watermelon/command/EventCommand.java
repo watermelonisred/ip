@@ -4,6 +4,7 @@ import watermelon.Storage;
 import watermelon.TaskList;
 import watermelon.Ui;
 import watermelon.exception.InvalidDateTimeException;
+import watermelon.exception.InvalidInputException;
 import watermelon.exception.StorageOperationException;
 import watermelon.task.Task;
 
@@ -40,7 +41,7 @@ public class EventCommand extends Command {
      * @throws StorageOperationException {@inheritDoc}
      */
     @Override
-    public void execute() throws StorageOperationException, InvalidDateTimeException {
+    public void execute() throws StorageOperationException, InvalidDateTimeException, InvalidInputException {
         Task task = taskList.addEvent(description, from, to);
         assert task != null : "task should not be null";
         storage.saveTasks(taskList);

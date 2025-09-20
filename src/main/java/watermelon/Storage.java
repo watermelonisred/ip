@@ -11,6 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import watermelon.exception.InvalidDateTimeException;
+import watermelon.exception.InvalidInputException;
 import watermelon.exception.StorageOperationException;
 import watermelon.task.Deadline;
 import watermelon.task.Event;
@@ -36,7 +38,6 @@ public class Storage {
      * Loads tasks from the storage file.
      *
      * @return An {@link ArrayList} of tasks loaded from file, empty list if file doesn't exist.
-     * @throws IOException If there's an error reading from file.
      */
     public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -49,9 +50,15 @@ public class Storage {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                Task task = parseTaskFromFile(line.trim());
-                if (task != null) {
-                    tasks.add(task);
+                try {
+                    Task task = parseTaskFromFile(line.trim());
+                    if (task != null) {
+                        tasks.add(task);
+                    }
+                } catch (InvalidDateTimeException e) {
+                    System.out.println("Skipping task entry with invalid date/time format: " + line);
+                } catch (InvalidInputException e) {
+                    System.out.println("Skipping task entry with invalid date/time: " + line);
                 }
             }
         } catch (IOException e) {
@@ -99,7 +106,7 @@ public class Storage {
      * @param line The line to parse.
      * @return Task object created from the line, null if parsing fails.
      */
-    private Task parseTaskFromFile(String line) {
+    private Task parseTaskFromFile(String line) throws InvalidDateTimeException, InvalidInputException {
         if (line == null || line.trim().isEmpty()) {
             return null;
         }
@@ -116,30 +123,26 @@ public class Storage {
 
         Task task = null;
 
-        try {
-            switch (taskType) {
-            case "T":
-                task = new Todo(description, isDone);
-                break;
-            case "D":
-                if (parts.length >= 4) {
-                    String by = parts[3].trim();
-                    task = new Deadline(description, by, isDone);
-                }
-                break;
-            case "E":
-                if (parts.length >= 5) {
-                    String from = parts[3].trim();
-                    String to = parts[4].trim();
-                    task = new Event(description, from, to, isDone);
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown task type: " + taskType); // Unknown task type
+        switch (taskType) {
+        case "T":
+            task = new Todo(description, isDone);
+            break;
+        case "D":
+            if (parts.length >= 4) {
+                String by = parts[3].trim();
+                task = new Deadline(description, by, isDone);
             }
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
+            break;
+        case "E":
+            if (parts.length >= 5) {
+                String from = parts[3].trim();
+                String to = parts[4].trim();
+                task = new Event(description, from, to, isDone);
+            }
+            break;
+        default:
+            // Skip over lines with unknown task type
+            System.out.println("Skipping task entry with unknown task type: " + taskType);
         }
 
         return task;

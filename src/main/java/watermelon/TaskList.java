@@ -6,6 +6,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 import watermelon.exception.InvalidDateTimeException;
+import watermelon.exception.InvalidInputException;
 import watermelon.exception.InvalidTaskTypeException;
 import watermelon.task.Deadline;
 import watermelon.task.Event;
@@ -116,7 +117,7 @@ public class TaskList {
      * @throws DateTimeParseException If either date/time string does not match the "ddMMyyyy HHmm" pattern.
      */
     public Task addEvent(String description, String from, String to)
-            throws InvalidDateTimeException {
+            throws InvalidDateTimeException, InvalidInputException {
         Task task = new Event(description, from, to);
         tasks.add(task);
         assert tasks.contains(task) : "tasks array should contain new Event task";

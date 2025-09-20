@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import watermelon.exception.InvalidDateTimeException;
+import watermelon.exception.InvalidInputException;
 
 /**
  * Represents an Event task with a start and end date.
@@ -18,21 +19,31 @@ public class Event extends Task {
     /**
      * Constructs a new Event task with the specified description, start date and end date.
      */
-    public Event(String description, String from, String to) throws InvalidDateTimeException {
+    public Event(String description, String from, String to)
+            throws InvalidDateTimeException, InvalidInputException {
         super(description);
         this.taskType = "E";
         this.from = stringToDateTime(from);
         this.to = stringToDateTime(to);
+
+        if (this.from.isAfter(this.to) || this.from.equals(this.to)) {
+            throw new InvalidInputException("Start date/time must be before end date/time.");
+        }
     }
 
     /**
      * Constructs a new Event task with the specified description, start date, end date and completion status.
      */
-    public Event(String description, String from, String to, boolean isDone) throws InvalidDateTimeException {
+    public Event(String description, String from, String to, boolean isDone)
+            throws InvalidDateTimeException, InvalidInputException {
         super(description, isDone);
         this.taskType = "E";
         this.from = stringToDateTime(from);
         this.to = stringToDateTime(to);
+
+        if (this.from.isAfter(this.to) || this.from.equals(this.to)) {
+            throw new InvalidInputException("Start date/time must be before end date/time.");
+        }
     }
 
     public LocalDateTime getFrom() {
