@@ -1,6 +1,2 @@
-T | 0 | watch lectures
-T | 0 | shower
-T | 0 | catch up on work
-D | 0 | ip | 22092025 2359
-E | 0 | recess week | 22092025 0000 | 28092025 2359
-T | 0 | sleep
+T | 0 | study for exams
+D | 0 | assignment | 21092025 2359
