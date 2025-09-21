@@ -4,7 +4,7 @@
   <img src="Ui.png" width="300"/>
 </p>
 
-<p align="center"><span style="font-size: 12px;">
+<p align="center"><span style="font-size: 10px;">
   Watermelon icon: <a href="https://www.freepik.com/premium-vector/cute-happy-watermelon-cartoon-illustration_27859519.htm">Freepik</a> &nbsp;|&nbsp;
   User icon: <a href="https://favpng.com/png_view/ice-melt-cute-ice-cube-cartoon-png/ShcAGEdu">favpng.com</a>
 </span></p>
