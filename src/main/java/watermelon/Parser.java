@@ -176,9 +176,9 @@ public class Parser {
         return new FindCommand(taskList, find.group(1).trim(), ui);
     }
 
-    private Command parseScheduleCommand(Matcher schedule) throws InvalidInputException, InvalidDateTimeException {
+    private Command parseScheduleCommand(Matcher schedule) throws InvalidDateTimeException {
         if (schedule.group(1) == null || schedule.group(1).isBlank()) {
-            throw new InvalidInputException("missing date!");
+            return new ScheduleCommand(taskList, LocalDate.now(), ui);
         }
         LocalDate date = stringToDate(schedule.group(1).trim());
         return new ScheduleCommand(taskList, date, ui);
