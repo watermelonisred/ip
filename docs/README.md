@@ -254,7 +254,7 @@ No tasks scheduled for 2024-06-30!
 
 **Expected Output:**
 ```
-Here are your tasks scheduled for 2024-06-30:
+Here are your tasks scheduled for today:
 1.[D][ ] submit assignment (by: 2024-06-30 23:59)
 ```
 ---
