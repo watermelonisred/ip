@@ -75,16 +75,21 @@ public class Ui {
         return "OK, I've marked this task as not done yet:\n" + INDENT + task;
     }
 
-    /** Returns the chatbot's response to a ScheduleCommand when there are no scheduled tasks. **/
+    /** Returns the chatbot's response to a ScheduleCommand when there are no scheduled tasks for a specified date. **/
     public String showNoTasksScheduledMessage(LocalDate date) {
         String dateInString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        return String.format("No tasks scheduled on %s! :)", dateInString);
+        return String.format("No tasks scheduled for %s! :)", dateInString);
     }
 
-    /** Returns the chatbot's response to a FindCommand when there are scheduled tasks. **/
+    /** Returns the chatbot's response to a ScheduleCommand when there are no scheduled tasks for today. **/
+    public String showNoTasksScheduledMessage() {
+        return "No tasks scheduled for today! :)";
+    }
+
+    /** Returns the chatbot's response to a ScheduleCommand when there are scheduled tasks for a specified date. **/
     public String showTasksScheduledMessage(ArrayList<Task> scheduledTasks, LocalDate date) {
         String dateInString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        StringBuilder sb = new StringBuilder(String.format("Here are your scheduled tasks for %s:", dateInString));
+        StringBuilder sb = new StringBuilder(String.format("Here are your tasks scheduled for %s:", dateInString));
 
         for (int i = 0; i < scheduledTasks.size(); i++) {
             int task_index = i + 1;
@@ -94,9 +99,19 @@ public class Ui {
         return sb.toString();
     }
 
-    /**
-     * Returns a goodbye message.
-     */
+    /** Returns the chatbot's response to a ScheduleCommand when there are scheduled tasks for today. **/
+    public String showTasksScheduledMessage(ArrayList<Task> scheduledTasks) {
+        StringBuilder sb = new StringBuilder("Here are your tasks scheduled for today:");
+
+        for (int i = 0; i < scheduledTasks.size(); i++) {
+            int task_index = i + 1;
+            sb.append("\n" + task_index + ". " + scheduledTasks.get(i));
+        }
+
+        return sb.toString();
+    }
+
+    /** Returns a goodbye message. **/
     public String endChat() {
         return "Bye! Hope to see you again soon! :D";
     }

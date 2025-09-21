@@ -15,14 +15,22 @@ import watermelon.task.Task;
  */
 public class ScheduleCommand extends Command {
     private LocalDate date;
+    private boolean isDateProvided;
 
-    /**
-     * Constructs a ScheduleCommand object with given details.
-     */
+    /** Constructs a ScheduleCommand object with specified date. **/
     public ScheduleCommand(TaskList taskList, LocalDate date, Ui ui) {
         super.taskList = taskList;
         super.ui = ui;
         this.date = date;
+        this.isDateProvided = true;
+    }
+
+    /** Constructs a ScheduleCommand object without specified date. **/
+    public ScheduleCommand(TaskList taskList, Ui ui) {
+        super.taskList = taskList;
+        super.ui = ui;
+        this.date = LocalDate.now();
+        this.isDateProvided = false;
     }
 
     @Override
@@ -31,11 +39,15 @@ public class ScheduleCommand extends Command {
         assert scheduledTasks != null : "scheduledTasks should not be null";
 
         if (scheduledTasks.isEmpty()) {
-            message = ui.showNoTasksScheduledMessage(date);
+            message = this.isDateProvided
+                    ? ui.showNoTasksScheduledMessage(date)
+                    : ui.showNoTasksScheduledMessage();
             return;
         }
 
-        message = ui.showTasksScheduledMessage(scheduledTasks, date);
+        message = this.isDateProvided
+                ? ui.showTasksScheduledMessage(scheduledTasks, date)
+                : ui.showTasksScheduledMessage(scheduledTasks);
     }
 
     @Override

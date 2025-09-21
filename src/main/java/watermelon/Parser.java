@@ -178,7 +178,7 @@ public class Parser {
 
     private Command parseScheduleCommand(Matcher schedule) throws InvalidDateTimeException {
         if (schedule.group(1) == null || schedule.group(1).isBlank()) {
-            return new ScheduleCommand(taskList, LocalDate.now(), ui);
+            return new ScheduleCommand(taskList, ui);
         }
         LocalDate date = stringToDate(schedule.group(1).trim());
         return new ScheduleCommand(taskList, date, ui);
