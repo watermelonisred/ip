@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 import watermelon.exception.InvalidDateTimeException;
+import watermelon.exception.InvalidInputException;
 import watermelon.task.Task;
 
 // Used Claude to generate the following test cases for TaskList class
@@ -76,7 +77,7 @@ public class TaskListTest {
         ArrayList<Task> tasks = new ArrayList<>();
         TaskList taskList = new TaskList(tasks);
 
-        taskList.addDeadline("submit assignment", "2023-12-01");
+        taskList.addDeadline("submit assignment", "01122023 2359");
 
         assertEquals(1, taskList.getSize());
     }
@@ -99,7 +100,7 @@ public class TaskListTest {
         ArrayList<Task> tasks = new ArrayList<>();
         TaskList taskList = new TaskList(tasks);
 
-        taskList.addEvent("team meeting", "2025-12-01 14:00", "2025-12-01 16:00");
+        taskList.addEvent("team meeting", "01122025 1400", "01122025 1600");
 
         assertEquals(1, taskList.getSize());
     }
@@ -110,9 +111,9 @@ public class TaskListTest {
         TaskList taskList = new TaskList(tasks);
 
         try {
-            taskList.addEvent("team meeting", "invalid-date", "2025-12-01 16:00");
+            taskList.addEvent("team meeting", "invalid-date", "01122025 1600");
             fail();
-        } catch (InvalidDateTimeException e) {
+        } catch (InvalidDateTimeException | InvalidInputException e) {
             // exception thrown as expected
         }
     }
