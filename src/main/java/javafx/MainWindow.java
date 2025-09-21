@@ -28,8 +28,8 @@ public class MainWindow extends AnchorPane {
 
     private Watermelon watermelon;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/User.png"));
-    private Image watermelonImage = new Image(this.getClass().getResourceAsStream("/images/Watermelon.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
+    private Image watermelonImage = new Image(this.getClass().getResourceAsStream("/images/watermelon.png"));
 
     /**
      * Initializes the controller. Sets up auto-scrolling for the dialog container
