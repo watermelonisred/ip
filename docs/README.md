@@ -1,6 +1,8 @@
 # Watermelon User Guide
 
-![Product Screenshot](Ui.png)
+<p align="center">
+  <img src="Ui.png" width="300"/>
+</p>
 
 Watermelon is an **interactive and easy-to-use task manager** that helps you keep track of your todos, deadlines, and events. 
 You can add, list, mark as done, delete, find tasks and view your schedule for any day easily using simple commands.
@@ -265,4 +267,3 @@ Bye! Hope to see you again soon! :D
 ```
 
 ---
-
