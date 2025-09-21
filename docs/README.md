@@ -194,7 +194,7 @@ Deletes a task from your list.
 
 **Expected Output:**
 ```
-Noted. I've removed this task:
+OK, I've removed this task:
   [T][ ] read book
 Now you have 2 tasks in the list.
 ```

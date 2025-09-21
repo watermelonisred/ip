@@ -31,7 +31,7 @@ public class Ui {
 
     /** Returns the chatbot's response to a DeleteCommand. **/
     public String showTaskDeletedMessage(Task task, int taskListSize) {
-        return "OK. I've removed this task:\n"
+        return "OK, I've removed this task:\n"
                 + INDENT + task + "\n"
                 + String.format("Now you have %d tasks in the list.", taskListSize);
     }
