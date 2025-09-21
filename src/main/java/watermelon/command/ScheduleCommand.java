@@ -31,7 +31,7 @@ public class ScheduleCommand extends Command {
         assert scheduledTasks != null : "scheduledTasks should not be null";
 
         if (scheduledTasks.isEmpty()) {
-            message = ui.showNoTasksScheduledMessage();
+            message = ui.showNoTasksScheduledMessage(date);
             return;
         }
 

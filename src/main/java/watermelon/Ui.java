@@ -76,8 +76,9 @@ public class Ui {
     }
 
     /** Returns the chatbot's response to a ScheduleCommand when there are no scheduled tasks. **/
-    public String showNoTasksScheduledMessage() {
-        return "No tasks scheduled for today! :)";
+    public String showNoTasksScheduledMessage(LocalDate date) {
+        String dateInString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return String.format("No tasks scheduled on %s! :)", dateInString);
     }
 
     /** Returns the chatbot's response to a FindCommand when there are scheduled tasks. **/
